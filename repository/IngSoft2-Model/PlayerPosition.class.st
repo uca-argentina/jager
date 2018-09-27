@@ -49,7 +49,7 @@ PlayerPosition >> advancePosition: aNumberOfSpaces [
 	position := position + aNumberOfSpaces.
 ]
 
-{ #category : #accessing }
+{ #category : #Accessing }
 PlayerPosition >> findName [
 	^ player findName .
 ]

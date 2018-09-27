@@ -68,9 +68,12 @@ Game >> name [
 
 { #category : #initializing }
 Game >> named: aName playedBy: aPlayerSet throwing: aDiceSet on: aBoard [ 
+	players := OrderedCollection new.
+	playerPositions := OrderedCollection new.
+	dices := OrderedCollection new.
 	name := aName.
-	players addAll: aPlayerSet .
-	dices addAll: aDiceSet.
+	players := aPlayerSet .
+	dices := aDiceSet.
 	board := aBoard.
 	numPlayers := players size.
 	diceCount := dices size.
@@ -91,11 +94,11 @@ Game >> playTurn [
 
 { #category : #players }
 Game >> playerNames [
-	| player playerNames |
-	player := players first findName.
+	| playerNames |
 	playerNames := OrderedCollection new.
-	1 to: numPlayers do: [ :i | player := (players at: i) findName. playerNames add: player].
+	playerNames addAll: (players collect: [:player | player findName]).
 	^playerNames.
+
 ]
 
 { #category : #players }
@@ -111,7 +114,8 @@ Game >> positionPlayers [
 
 { #category : #playing }
 Game >> positionPlayersAtBoardStart [
-	1 to: (players size) do: [ :index | playerPositions add:( PlayerPosition PositionPlayer: (players at: index)) ].
+	playerPositions addAll: (players collect: [ :player | playerPositions add:( PlayerPosition PositionPlayer: player ) ]).
+	
 ]
 
 { #category : #play }
