@@ -25,7 +25,7 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #PlayerPosition,
+	#name : #Ranking,
 	#superclass : #Object,
 	#instVars : [
 		'player',
@@ -35,32 +35,32 @@ Class {
 }
 
 { #category : #initialization }
-PlayerPosition class >> PositionPlayer: aPlayer [ 
+Ranking class >> PositionPlayer: aPlayer [ 
 	^ self new positionPlayer: aPlayer.
 ]
 
 { #category : #positioning }
-PlayerPosition >> <= aPlayerPosition [ 
+Ranking >> <= aPlayerPosition [ 
 	^position >= (aPlayerPosition findPosition).
 ]
 
 { #category : #Accessing }
-PlayerPosition >> advancePosition: aNumberOfSpaces [ 
+Ranking >> advancePosition: aNumberOfSpaces [ 
 	position := position + aNumberOfSpaces.
 ]
 
-{ #category : #accessing }
-PlayerPosition >> findName [
+{ #category : #Accessing }
+Ranking >> findName [
 	^ player findName .
 ]
 
 { #category : #Accessing }
-PlayerPosition >> findPosition [
+Ranking >> findPosition [
 	^position.
 ]
 
 { #category : #initialization }
-PlayerPosition >> positionPlayer: aPlayer [ 
+Ranking >> positionPlayer: aPlayer [ 
 	player := aPlayer.
 	position := 0.
 ]

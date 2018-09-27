@@ -47,18 +47,10 @@ Game class >> named: aString playedBy: aPlayerSet throwing: aDiceSet on: aBoard 
 	^ self new named: aString playedBy: aPlayerSet throwing: aDiceSet on: aBoard .
 ]
 
-{ #category : #initialization }
-Game >> initialize [
-	players := OrderedCollection new.
-	playerPositions := OrderedCollection new.
-	dices := OrderedCollection new.
-]
-
 { #category : #play }
 Game >> isFinished [
-	| position |
-		 1 to: numPlayers do: [ :i | position := (playerPositions at: i) findPosition. position >= board ifTrue:[ ^true ] ].
-		^false.
+	^ playerPositions
+		anySatisfy: [ :index | index findPosition >= board ]
 ]
 
 { #category : #initialization }
@@ -66,11 +58,14 @@ Game >> name [
 	^name.
 ]
 
-{ #category : #initializing }
+{ #category : #initialization }
 Game >> named: aName playedBy: aPlayerSet throwing: aDiceSet on: aBoard [ 
+	players := OrderedCollection new.
+	playerPositions := OrderedCollection new.
+	dices := OrderedCollection new.
 	name := aName.
-	players addAll: aPlayerSet .
-	dices addAll: aDiceSet.
+	players := aPlayerSet .
+	dices := aDiceSet.
 	board := aBoard.
 	numPlayers := players size.
 	diceCount := dices size.
@@ -82,20 +77,22 @@ Game >> named: aName playedBy: aPlayerSet throwing: aDiceSet on: aBoard [
 Game >> playTurn [
 	| player |
 	self isFinished
-		ifFalse: [
-			1 to: numPlayers do: [ :i | 
-				player := (playerPositions select: [ :current | current findName = (players at: i) findName ]).
-					(player at: 1) advancePosition: self rollDices ].
-			self positionPlayers ]
+		ifTrue: [ ^ self ].
+	players
+		do: [ :index | 
+			player := playerPositions
+				select: [ :current | current findName = index findName ].
+			(player at: 1) advancePosition: self rollDices ].
+	self positionPlayers
 ]
 
 { #category : #players }
 Game >> playerNames [
-	| player playerNames |
-	player := players first findName.
+	| playerNames |
 	playerNames := OrderedCollection new.
-	1 to: numPlayers do: [ :i | player := (players at: i) findName. playerNames add: player].
+	playerNames addAll: (players collect: [:player | player findName]).
 	^playerNames.
+
 ]
 
 { #category : #players }
@@ -106,19 +103,21 @@ Game >> players [
 { #category : #play }
 Game >> positionPlayers [
 
-	playerPositions sort.
+	playerPositions sort .
+	"As sorted collection:"
 ]
 
-{ #category : #playing }
+{ #category : #initialization }
 Game >> positionPlayersAtBoardStart [
-	1 to: (players size) do: [ :index | playerPositions add:( PlayerPosition PositionPlayer: (players at: index)) ].
+	playerPositions addAll: (players collect: [ :player | playerPositions add:( Ranking PositionPlayer: player ) ]).
+	
 ]
 
 { #category : #play }
 Game >> rollDices [
-	| dice count |
+	| count |
 	count := 0.
-	1 to: diceCount do: [ :i | dice := (dices at: i). count := count + (dice roll)].
+	count := dices sumNumbers: [:dice | dice roll ].
 	^count.
 ]
 

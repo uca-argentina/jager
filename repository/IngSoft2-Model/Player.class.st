@@ -37,7 +37,7 @@ Player class >> named: aString [
 	^ self new withPlayer: aString.
 ]
 
-{ #category : #accesing }
+{ #category : #accessing }
 Player >> findName [
 	^name.
 ]
@@ -45,5 +45,5 @@ Player >> findName [
 { #category : #initialization }
 Player >> withPlayer: aString [ 
 	name:= aString.
-	position := 0.
+
 ]
