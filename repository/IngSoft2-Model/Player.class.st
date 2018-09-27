@@ -45,5 +45,5 @@ Player >> findName [
 { #category : #initialization }
 Player >> withPlayer: aString [ 
 	name:= aString.
-	position := 0.
+
 ]
