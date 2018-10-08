@@ -36,31 +36,31 @@ Class {
 
 { #category : #initialization }
 Ranking class >> PositionPlayer: aPlayer [ 
-	^ self new positionPlayer: aPlayer.
-]
-
-{ #category : #positioning }
-Ranking >> <= aPlayerPosition [ 
-	^position >= (aPlayerPosition findPosition).
+	^ self new initializeAtStart: aPlayer.
 ]
 
 { #category : #Accessing }
-Ranking >> advancePosition: aNumberOfSpaces [ 
+Ranking >> advancePositionBy: aNumberOfSpaces [ 
 	position := position + aNumberOfSpaces.
 ]
 
-{ #category : #Accessing }
-Ranking >> findName [
-	^ player findName .
-]
-
-{ #category : #Accessing }
-Ranking >> findPosition [
-	^position.
-]
-
 { #category : #initialization }
-Ranking >> positionPlayer: aPlayer [ 
+Ranking >> initializeAtStart: aPlayer [ 
 	player := aPlayer.
 	position := 0.
+]
+
+{ #category : #Accessing }
+Ranking >> name [
+	^ player name .
+]
+
+{ #category : #Accessing }
+Ranking >> player [
+	^ player
+]
+
+{ #category : #Accessing }
+Ranking >> position [
+	^position.
 ]

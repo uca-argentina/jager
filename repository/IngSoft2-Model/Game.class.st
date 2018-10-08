@@ -31,97 +31,88 @@ Class {
 	#name : #Game,
 	#superclass : #Object,
 	#instVars : [
-		'name',
 		'players',
-		'numPlayers',
 		'dices',
-		'diceCount',
-		'board',
-		'playerPositions'
+		'playerPositions',
+		'boardSpaces'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #initializing }
-Game class >> named: aString playedBy: aPlayerSet throwing: aDiceSet on: aBoard [ 
-	^ self new named: aString playedBy: aPlayerSet throwing: aDiceSet on: aBoard .
-]
-
-{ #category : #play }
-Game >> isFinished [
-	^ playerPositions
-		anySatisfy: [ :index | index findPosition >= board ]
+Game class >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard [
+	^ self new
+		playedBy: aPlayerSet
+		throwing: aDiceSet
+		on: aBoard
 ]
 
 { #category : #initialization }
-Game >> name [
-	^name.
-]
-
-{ #category : #initialization }
-Game >> named: aName playedBy: aPlayerSet throwing: aDiceSet on: aBoard [ 
-	players := OrderedCollection new.
-	playerPositions := OrderedCollection new.
-	dices := OrderedCollection new.
-	name := aName.
-	players := aPlayerSet .
-	dices := aDiceSet.
-	board := aBoard.
-	numPlayers := players size.
-	diceCount := dices size.
-	self positionPlayersAtBoardStart.
-	
-]
-
-{ #category : #play }
-Game >> playTurn [
-	| player |
-	self isFinished
-		ifTrue: [ ^ self ].
-	players
-		do: [ :index | 
-			player := playerPositions
-				select: [ :current | current findName = index findName ].
-			(player at: 1) advancePosition: self rollDices ].
-	self positionPlayers
-]
-
-{ #category : #players }
-Game >> playerNames [
-	| playerNames |
-	playerNames := OrderedCollection new.
-	playerNames addAll: (players collect: [:player | player findName]).
-	^playerNames.
-
-]
-
-{ #category : #players }
-Game >> players [
-	^ players
-]
-
-{ #category : #play }
-Game >> positionPlayers [
-
-	playerPositions sort .
-	"As sorted collection:"
-]
-
-{ #category : #initialization }
-Game >> positionPlayersAtBoardStart [
+Game >> initializePlayerPositions [
 	playerPositions addAll: (players collect: [ :player | playerPositions add:( Ranking PositionPlayer: player ) ]).
 	
 ]
 
 { #category : #play }
+Game >> isFinished [
+	^ playerPositions
+		anySatisfy: [ :index | index position >= boardSpaces ]
+		"detect: [ :each | each position >= boardSpaces  ]."
+]
+
+{ #category : #play }
+Game >> playRound [
+	| ranking |
+	self isFinished
+		ifTrue: [ AssertionFailure signal: 'Game has finished' ].
+	players
+		do: [ :aPlayer | 
+			ranking := playerPositions
+				detect: [ :aRanking | aRanking player = aPlayer ].
+			ranking advancePositionBy: self rollDices ].
+	self rankPlayers
+]
+
+{ #category : #initialization }
+Game >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard [
+	players := OrderedCollection new.
+	playerPositions := OrderedCollection new.
+	dices := OrderedCollection new.
+	players := aPlayerSet.
+	dices := aDiceSet.
+	boardSpaces := aBoard.
+	self initializePlayerPositions
+]
+
+{ #category : #Accessing }
+Game >> playerNames [
+	| playerNames |
+	playerNames := OrderedCollection new.
+	playerNames addAll: (players collect: [:player | player name]).
+	^playerNames.
+
+]
+
+{ #category : #Accessing }
+Game >> players [
+	^ players
+]
+
+{ #category : #play }
+Game >> rankPlayers [
+
+	playerPositions sort: #position descending, #name ascending.
+	"As sorted collection:"
+]
+
+{ #category : #play }
 Game >> rollDices [
-	| count |
-	count := 0.
-	count := dices sumNumbers: [:dice | dice roll ].
-	^count.
+	^dices sumNumbers: [:dice | dice roll ].
 ]
 
 { #category : #play }
 Game >> winner [
-	^ ((playerPositions at: 1) findName).
+	^ self isFinished
+		ifTrue: [ (playerPositions at: 1) name ]
+		ifFalse: [ AssertionFailure signal: 'Game not finished' ]
 ]
