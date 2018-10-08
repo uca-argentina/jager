@@ -32,21 +32,16 @@ Class {
 	#instVars : [
 		'players',
 		'dices',
-		'board',
-		'name'
+		'name',
+		'boardSpaces'
 	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
-GameBuilder class >> named: aName [
-	^ self new named: aName
-]
-
 { #category : #build }
 GameBuilder >> addBoardWithSpaces: anInteger [
 	
-    board :=  anInteger 
+    boardSpaces :=  anInteger 
 ]
 
 { #category : #build }
@@ -56,15 +51,15 @@ GameBuilder >> addDiceWithSides: anInteger [
 ]
 
 { #category : #build }
-GameBuilder >> addFixedDiceWithSides: anInteger [
-	
-	dices add:(FixedDice withNumOfSides: anInteger)
-]
-
-{ #category : #build }
 GameBuilder >> addPlayerNamed: aName [
 	
     players add: (Player named: aName).
+]
+
+{ #category : #build }
+GameBuilder >> addSequencedDiceWithSides: anInteger [
+	
+	dices add:(SequencedDice withNumOfSides: anInteger)
 ]
 
 { #category : #build }
@@ -75,14 +70,8 @@ GameBuilder >> assertDicesNotEmpty [
 
 { #category : #build }
 GameBuilder >> assertGameHasABoard [
-	board isNaN
+	boardSpaces isNaN
 		ifTrue: [ AssertionFailure signal: 'the game has no board' ]
-]
-
-{ #category : #build }
-GameBuilder >> assertGameHasAName [
-	name isEmpty
-		ifTrue: [ AssertionFailure signal: 'game has no name' ]
 ]
 
 { #category : #build }
@@ -96,23 +85,15 @@ GameBuilder >> build [
 	self
 		assertPlayersNotEmpty;
 		assertDicesNotEmpty;
-		assertGameHasAName;
 		assertGameHasABoard.
 	^ Game
-		named: name
 		playedBy: players
 		throwing: dices
-		on: board
+		on: boardSpaces
 ]
 
 { #category : #initialization }
 GameBuilder >> initialize [
 	players := OrderedCollection new.
 	dices := OrderedCollection new.
-]
-
-{ #category : #build }
-GameBuilder >> named: aName [
-	
-    name := aName.
 ]

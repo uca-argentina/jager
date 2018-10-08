@@ -13,15 +13,14 @@ GameTest >> testPlayAGameFourPlayerThreeDice678SidesBoardWith100Spaces [
 	gameBuilder addPlayerNamed: 'Nacho'.
 	gameBuilder addPlayerNamed: 'Albert'.
 	gameBuilder addPlayerNamed: 'Juan'.
-	gameBuilder addFixedDiceWithSides: 6.
-	gameBuilder addFixedDiceWithSides: 7.
-	gameBuilder addFixedDiceWithSides: 8.
-	gameBuilder named: 'jager'.
+	gameBuilder addSequencedDiceWithSides: 6.
+	gameBuilder addSequencedDiceWithSides: 7.
+	gameBuilder addSequencedDiceWithSides: 8.
 	game := gameBuilder build.
-	game playTurn.
+	game playRound.
 	self deny: game isFinished.
-	game playTurn.
-	1 to: 7 do: [:i | game playTurn. ].
+	game playRound.
+	1 to: 6 do: [:i | game playRound. ].
 	self assert: game isFinished.
 	self assert: game winner equals: 'Juan'.
 
@@ -32,18 +31,17 @@ GameTest >> testPlayAGameFourPlayerThreeDice678SidesBoardWith100Spaces [
 GameTest >> testPlayAGameFourPlayerTwoDice6SidesBoardWith10Spaces [
 	| game gameBuilder |
 	gameBuilder := GameBuilder new.
-	gameBuilder named: 'jager'.
 	gameBuilder addBoardWithSpaces: 10.
 	gameBuilder addPlayerNamed: 'Santiago'.
 	gameBuilder addPlayerNamed: 'Nacho'.
 	gameBuilder addPlayerNamed: 'Juan'.
 	gameBuilder addPlayerNamed: 'Albert'.
-	gameBuilder addFixedDiceWithSides: 6.
-	gameBuilder addFixedDiceWithSides: 6.
+	gameBuilder addSequencedDiceWithSides: 6.
+	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
-	game playTurn.
+	game playRound.
 	self deny: game isFinished.
-	game playTurn.
+	game playRound.
 	self assert: game isFinished.
 	self assert: 1 equals: 1.
 	
@@ -53,14 +51,13 @@ GameTest >> testPlayAGameFourPlayerTwoDice6SidesBoardWith10Spaces [
 GameTest >> testPlayAGameOnePlayerOneDice6SidesBoardWith10Spaces [
 	| game gameBuilder |
 	gameBuilder := GameBuilder new. 
-	gameBuilder named: 'jager'.
 	gameBuilder addBoardWithSpaces: 10.
 	gameBuilder addPlayerNamed: 'Santiago'.
-	gameBuilder addFixedDiceWithSides: 6.
+	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
-	game playTurn.
+	game playRound.
 	self deny: game isFinished.
-	1 to: 5 do: [:i | game playTurn. ].
+	1 to: 3 do: [:i | game playRound. ].
 	self assert: game isFinished.
 ]
 
@@ -68,16 +65,15 @@ GameTest >> testPlayAGameOnePlayerOneDice6SidesBoardWith10Spaces [
 GameTest >> testPlayAGameTwoPlayerTwoDice6SidesBoardWith10Spaces [
 	| game gameBuilder |
 	gameBuilder := GameBuilder new.
-	gameBuilder named: 'jager'.
 	gameBuilder addBoardWithSpaces: 10.
 	gameBuilder addPlayerNamed: 'Santiago'.
 	gameBuilder addPlayerNamed: 'Nacho'.
-	gameBuilder addFixedDiceWithSides: 6.
-	gameBuilder addFixedDiceWithSides: 6.
+	gameBuilder addSequencedDiceWithSides: 6.
+	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
-	game playTurn.
+	game playRound.
 	self deny: game isFinished.
-	game playTurn.
+	game playRound.
 	self assert: game isFinished.
 	
 ]

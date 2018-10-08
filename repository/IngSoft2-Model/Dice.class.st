@@ -27,7 +27,8 @@ Class {
 	#name : #Dice,
 	#superclass : #Object,
 	#instVars : [
-		'amountSides'
+		'amountSides',
+		'random'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -46,13 +47,12 @@ Dice >> amountSides [
 { #category : #initialization }
 Dice >> initializeWithSides: anInteger [ 
 	amountSides := anInteger.
+	random:= Random new.
 ]
 
 { #category : #rolling }
 Dice >> roll [
-| rand |
-rand:= Random new.
-rand nextInt: amountSides .
-	 ^  rand.
+
+	 ^  ((random nextInt: amountSides) asInteger).
 	
 ]

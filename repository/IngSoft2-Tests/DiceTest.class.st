@@ -42,7 +42,7 @@ DiceTest >> testDiceHas6FacesAndGetsAOne [
 
 	| dice value |
 	
-dice:= FixedDice withNumOfSides: 6.
+dice:= SequencedDice withNumOfSides: 6.
 self assert: dice amountSides equals: 6.
 value:= dice roll.
 self assert: value equals: 1.
@@ -55,7 +55,7 @@ DiceTest >> testDiceHas6FacesAndTestFullCicle [
 
 	| dice value |
 	
-dice:= FixedDice withNumOfSides: 6.
+dice:= SequencedDice withNumOfSides: 6.
 self assert: dice amountSides equals: 6.
 value:= dice roll.
 self assert: value equals: 1.
@@ -73,4 +73,13 @@ value:= dice roll.
 self assert: value equals: 1.
 
 
+]
+
+{ #category : #tests }
+DiceTest >> testRandomDiceFunctions [
+
+	| dice roll |
+	dice := Dice withNumOfSides: 10.
+	
+	self assert: ((dice roll) between: 1 and: 10) .
 ]

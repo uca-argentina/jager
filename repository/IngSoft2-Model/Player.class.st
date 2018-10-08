@@ -38,7 +38,7 @@ Player class >> named: aString [
 ]
 
 { #category : #accessing }
-Player >> findName [
+Player >> name [
 	^name.
 ]
 

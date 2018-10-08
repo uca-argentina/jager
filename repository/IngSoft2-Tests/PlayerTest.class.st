@@ -10,5 +10,5 @@ PlayerTest >> testCreatePlayer [
 
 	| player |
 	player:= Player named: 'jager'.
-	self assert: player findName equals: 'jager'.
+	self assert: player name equals: 'jager'.
 ]
