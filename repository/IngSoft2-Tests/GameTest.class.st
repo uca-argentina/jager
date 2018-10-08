@@ -20,7 +20,7 @@ GameTest >> testPlayAGameFourPlayerThreeDice678SidesBoardWith100Spaces [
 	game playRound.
 	self deny: game isFinished.
 	game playRound.
-	1 to: 7 do: [:i | game playRound. ].
+	1 to: 6 do: [:i | game playRound. ].
 	self assert: game isFinished.
 	self assert: game winner equals: 'Juan'.
 
@@ -57,7 +57,7 @@ GameTest >> testPlayAGameOnePlayerOneDice6SidesBoardWith10Spaces [
 	game := gameBuilder build.
 	game playRound.
 	self deny: game isFinished.
-	1 to: 5 do: [:i | game playRound. ].
+	1 to: 3 do: [:i | game playRound. ].
 	self assert: game isFinished.
 ]
 
