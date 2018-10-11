@@ -34,7 +34,8 @@ Class {
 		'players',
 		'dices',
 		'playerPositions',
-		'boardSpaces'
+		'boardSpaces',
+		'status'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -47,6 +48,17 @@ Game class >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard [
 		on: aBoard
 ]
 
+{ #category : #accessing }
+Game >> changeStatusToFinished [
+	status := FinishedStatus new.
+]
+
+{ #category : #accessing }
+Game >> find: aPlayer [
+	^ playerPositions
+				detect: [ :aRanking | aRanking player = aPlayer ].
+]
+
 { #category : #initialization }
 Game >> initializePlayerPositions [
 	playerPositions addAll: (players collect: [ :player | playerPositions add:( Ranking PositionPlayer: player ) ]).
@@ -54,23 +66,18 @@ Game >> initializePlayerPositions [
 ]
 
 { #category : #play }
-Game >> isFinished [
-	^ playerPositions
-		anySatisfy: [ :index | index position >= boardSpaces ]
-		"detect: [ :each | each position >= boardSpaces  ]."
+Game >> playRound [
+	status playRound.
+	players
+		do: [ :aPlayer | 
+			self playTurn: (self find: aPlayer).].
+	self rankPlayers.
+	
 ]
 
 { #category : #play }
-Game >> playRound [
-	| ranking |
-	self isFinished
-		ifTrue: [ AssertionFailure signal: 'Game has finished' ].
-	players
-		do: [ :aPlayer | 
-			ranking := playerPositions
-				detect: [ :aRanking | aRanking player = aPlayer ].
-			ranking advancePositionBy: self rollDices ].
-	self rankPlayers
+Game >> playTurn: aRanking [
+	aRanking advancePositionBy: self rollDices.
 ]
 
 { #category : #initialization }
@@ -78,13 +85,14 @@ Game >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard [
 	players := OrderedCollection new.
 	playerPositions := OrderedCollection new.
 	dices := OrderedCollection new.
+	status := ActiveStatus new.
 	players := aPlayerSet.
 	dices := aDiceSet.
 	boardSpaces := aBoard.
 	self initializePlayerPositions
 ]
 
-{ #category : #Accessing }
+{ #category : #accessing }
 Game >> playerNames [
 	| playerNames |
 	playerNames := OrderedCollection new.
@@ -93,7 +101,7 @@ Game >> playerNames [
 
 ]
 
-{ #category : #Accessing }
+{ #category : #accessing }
 Game >> players [
 	^ players
 ]
@@ -102,6 +110,7 @@ Game >> players [
 Game >> rankPlayers [
 
 	playerPositions sort: #position descending, #name ascending.
+	status isFinished: playerPositions length: boardSpaces in: self.
 	"As sorted collection:"
 ]
 
@@ -112,7 +121,5 @@ Game >> rollDices [
 
 { #category : #play }
 Game >> winner [
-	^ self isFinished
-		ifTrue: [ (playerPositions at: 1) name ]
-		ifFalse: [ AssertionFailure signal: 'Game not finished' ]
+	^ (playerPositions at: 1) name.
 ]

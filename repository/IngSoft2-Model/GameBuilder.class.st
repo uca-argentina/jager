@@ -32,7 +32,6 @@ Class {
 	#instVars : [
 		'players',
 		'dices',
-		'name',
 		'boardSpaces'
 	],
 	#category : #'IngSoft2-Model'
@@ -53,7 +52,7 @@ GameBuilder >> addDiceWithSides: anInteger [
 { #category : #build }
 GameBuilder >> addPlayerNamed: aName [
 	
-    players add: (Player named: aName).
+    players add: aName.
 ]
 
 { #category : #build }

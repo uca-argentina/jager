@@ -17,33 +17,21 @@ Public API and Key Messages
  
 Internal Representation and Key Implementation Points.
 
-    Instance Variables
-	name:		<Object>
-
 
     Implementation Points
 "
 Class {
-	#name : #Player,
-	#superclass : #Object,
-	#instVars : [
-		'name'
-	],
+	#name : #FinishedStatus,
+	#superclass : #Status,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #initialization }
-Player class >> named: aString [ 
-	^ self new withPlayer: aString.
-]
-
 { #category : #accessing }
-Player >> name [
-	^name.
+FinishedStatus >> isFinished: aRanking length: aBoardLength in: aGame [
+	^true.
 ]
 
-{ #category : #initialization }
-Player >> withPlayer: aString [ 
-	name:= aString.
-
+{ #category : #play }
+FinishedStatus >> playRound [
+	AssertionFailure signal: 'Game is finished'.
 ]
