@@ -17,50 +17,21 @@ Public API and Key Messages
  
 Internal Representation and Key Implementation Points.
 
-    Instance Variables
-	player:		<Object>
-	position:		<Object>
-
 
     Implementation Points
 "
 Class {
-	#name : #Ranking,
+	#name : #Status,
 	#superclass : #Object,
-	#instVars : [
-		'player',
-		'position'
-	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #initialization }
-Ranking class >> PositionPlayer: aPlayer [ 
-	^ self new initializeAtStart: aPlayer.
+{ #category : #accessing }
+Status >> isFinished: aRanking length: aBoardLength in: aGame [
+	self shouldBeImplemented.
 ]
 
-{ #category : #Accessing }
-Ranking >> advancePositionBy: aNumberOfSpaces [ 
-	position := position + aNumberOfSpaces.
-]
-
-{ #category : #initialization }
-Ranking >> initializeAtStart: aPlayer [ 
-	player := aPlayer.
-	position := 0.
-]
-
-{ #category : #Accessing }
-Ranking >> name [
-	^ player.
-]
-
-{ #category : #Accessing }
-Ranking >> player [
-	^ player
-]
-
-{ #category : #Accessing }
-Ranking >> position [
-	^position.
+{ #category : #play }
+Status >> playRound [
+	self shouldBeImplemented.
 ]

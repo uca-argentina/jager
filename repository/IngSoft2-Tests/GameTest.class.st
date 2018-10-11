@@ -18,10 +18,9 @@ GameTest >> testPlayAGameFourPlayerThreeDice678SidesBoardWith100Spaces [
 	gameBuilder addSequencedDiceWithSides: 8.
 	game := gameBuilder build.
 	game playRound.
-	self deny: game isFinished.
 	game playRound.
 	1 to: 6 do: [:i | game playRound. ].
-	self assert: game isFinished.
+	
 	self assert: game winner equals: 'Juan'.
 
 	
@@ -40,9 +39,8 @@ GameTest >> testPlayAGameFourPlayerTwoDice6SidesBoardWith10Spaces [
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
 	game playRound.
-	self deny: game isFinished.
 	game playRound.
-	self assert: game isFinished.
+	self assert: game winner equals: 'Nacho'.
 	self assert: 1 equals: 1.
 	
 ]
@@ -56,9 +54,8 @@ GameTest >> testPlayAGameOnePlayerOneDice6SidesBoardWith10Spaces [
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
 	game playRound.
-	self deny: game isFinished.
 	1 to: 3 do: [:i | game playRound. ].
-	self assert: game isFinished.
+	self should:[ game playRound ]raise: AssertionFailure description: 'Game is Finished'.
 ]
 
 { #category : #tests }
@@ -72,8 +69,7 @@ GameTest >> testPlayAGameTwoPlayerTwoDice6SidesBoardWith10Spaces [
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
 	game playRound.
-	self deny: game isFinished.
 	game playRound.
-	self assert: game isFinished.
+	self should:[ game playRound ]raise: AssertionFailure description: 'Game is Finished'.
 	
 ]
