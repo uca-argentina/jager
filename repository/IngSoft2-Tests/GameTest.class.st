@@ -67,7 +67,10 @@ GameTest >> testPlayAGameOnePlayerOneDice6SidesBoardWith10SpacesFixedNormal [
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
 	game playRound.
-	1 to: 3 do: [:i | game playRound. ].
+	game playRound.
+	game playRound.
+	game playRound.
+	game playRound.
 	self should:[ game playRound ]raise: AssertionFailure description: 'Game is Finished'.
 ]
 

@@ -98,6 +98,7 @@ GameBuilder >> build [
 		playedBy: players
 		throwing: dices
 		on: boardSpaces
+		withLaps: laps
 ]
 
 { #category : #initialization }

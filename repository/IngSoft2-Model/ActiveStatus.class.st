@@ -27,9 +27,8 @@ Class {
 }
 
 { #category : #accessing }
-ActiveStatus >> isFinished: aRanking length: aBoardLength in: aGame [
-	(aRanking 
-		anySatisfy: [ :index | index position >= aBoardLength ])
+ActiveStatus >> isFinished: aRanking length: laps in: aGame [
+	(aRanking anySatisfy: [ :index | index laps > (laps-1) ])
 	ifTrue: [ aGame changeStatusToFinished ].
 ]
 

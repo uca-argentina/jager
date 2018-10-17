@@ -35,7 +35,8 @@ Class {
 		'dices',
 		'playerPositions',
 		'boardSpaces',
-		'status'
+		'status',
+		'laps'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -46,6 +47,15 @@ Game class >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard [
 		playedBy: aPlayerSet
 		throwing: aDiceSet
 		on: aBoard
+]
+
+{ #category : #initializing }
+Game class >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard withLaps: someLaps [
+	^ self new
+		playedBy: aPlayerSet
+		throwing: aDiceSet
+		on: aBoard
+		withLaps: someLaps
 ]
 
 { #category : #accessing }
@@ -71,13 +81,13 @@ Game >> playRound [
 	players
 		do: [ :aPlayer | 
 			self playTurn: (self find: aPlayer).].
-	self rankPlayers.
+	self rankPlayers: laps.
 	
 ]
 
 { #category : #play }
 Game >> playTurn: aRanking [
-	aRanking advancePositionBy: self rollDices.
+	aRanking advancePositionBy: self rollDices withSpaces: (boardSpaces size).
 ]
 
 { #category : #initialization }
@@ -89,6 +99,19 @@ Game >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard [
 	players := aPlayerSet.
 	dices := aDiceSet.
 	boardSpaces := aBoard.
+	self initializePlayerPositions
+]
+
+{ #category : #initialization }
+Game >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard withLaps: someLaps [
+	players := OrderedCollection new.
+	playerPositions := OrderedCollection new.
+	dices := OrderedCollection new.
+	status := ActiveStatus new.
+	players := aPlayerSet.
+	dices := aDiceSet.
+	boardSpaces := aBoard.
+	laps:= someLaps.
 	self initializePlayerPositions
 ]
 
@@ -111,6 +134,14 @@ Game >> rankPlayers [
 
 	playerPositions sort: #position descending, #name ascending.
 	status isFinished: playerPositions length: (boardSpaces size) in: self.
+	"As sorted collection:"
+]
+
+{ #category : #play }
+Game >> rankPlayers: someLaps [
+
+	playerPositions sort: #laps descending, #position descending, #name ascending.
+	status isFinished: playerPositions length: (someLaps) in: self.
 	"As sorted collection:"
 ]
 
