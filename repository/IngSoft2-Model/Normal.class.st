@@ -36,3 +36,8 @@ Class {
 Normal >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer [
 
 ]
+
+{ #category : #playing }
+Normal >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
+
+]

@@ -63,6 +63,12 @@ Game >> changeStatusToFinished [
 	status := FinishedStatus new.
 ]
 
+{ #category : #play }
+Game >> doSpaceEfect: aRanking inSpace: aSpace [
+	aSpace doSpaceActionOn: playerPositions withCurrentPlayer: aRanking withSpaces: (boardSpaces size) andLaps: laps.
+
+]
+
 { #category : #accessing }
 Game >> find: aPlayer [
 	^ playerPositions
@@ -77,12 +83,16 @@ Game >> initializePlayerPositions [
 
 { #category : #play }
 Game >> playRound [
+	| temporaryPlayer |
 	status playRound.
 	players
 		do: [ :aPlayer | 
-			self playTurn: (self find: aPlayer).].
+			temporaryPlayer :=(self find: aPlayer).
+			self playTurn: temporaryPlayer.
+			self doSpaceEfect: (self find: aPlayer) inSpace: (boardSpaces at:(temporaryPlayer position)).
+			].
 	self rankPlayers: laps.
-	
+	 
 ]
 
 { #category : #play }

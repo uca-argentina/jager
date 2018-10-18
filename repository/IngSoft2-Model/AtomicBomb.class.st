@@ -36,3 +36,9 @@ Class {
 AtomicBomb >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer [
 	self shouldBeImplemented.
 ]
+
+{ #category : #playing }
+AtomicBomb >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
+	self shouldBeImplemented.
+
+]

@@ -34,5 +34,12 @@ Class {
 
 { #category : #playing }
 SpeedUp >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer [
-	self shouldBeImplemented.
+		"aRanking advancePositionBy: 4 withSpaces: (boardSpaces size)."
+
+]
+
+{ #category : #playing }
+SpeedUp >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
+		aPlayer advancePositionBy: 4 withSpaces: amountSpaces.
+
 ]

@@ -80,3 +80,18 @@ Ranking >> player [
 Ranking >> position [
 	^position.
 ]
+
+{ #category : #Accessing }
+Ranking >> recedePositionBy: aNumberOfSpaces withSpaces: aBoardLength [
+|temporarySpaces|
+	((position - aNumberOfSpaces ) < 0)
+	ifTrue: [ 
+		laps = 0
+		ifTrue:[position := 0.]
+		ifFalse:[
+				temporarySpaces := aNumberOfSpaces - position.
+				position := position - temporarySpaces.
+				laps := laps -1.]
+				]
+	ifFalse: [ position := position - aNumberOfSpaces. ]
+]

@@ -75,6 +75,31 @@ GameTest >> testPlayAGameOnePlayerOneDice6SidesBoardWith10SpacesFixedNormal [
 ]
 
 { #category : #tests }
+GameTest >> testPlayAGameOnePlayerOneDice6SidesBoardWith10SpacesFixedSpeedUp [
+	| game gameBuilder |
+	gameBuilder := GameBuilder new. 
+	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:70. 
+	gameBuilder addPlayerNamed: 'Santiago'.
+	gameBuilder addSequencedDiceWithSides: 6.
+	game := gameBuilder build.
+	game playRound.
+	game playRound.
+	self should:[ game playRound ]raise: AssertionFailure description: 'Game is Finished'.
+]
+
+{ #category : #tests }
+GameTest >> testPlayAGameOnePlayerOneDice6SidesBoardWith10SpacesFixedWormHole [
+	| game gameBuilder |
+	gameBuilder := GameBuilder new. 
+	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:60. 
+	gameBuilder addPlayerNamed: 'Santiago'.
+	gameBuilder addSequencedDiceWithSides: 15.
+	game := gameBuilder build.
+	1 to: 8 do: [:i | game playRound. ].
+	self should:[ game playRound ]raise: AssertionFailure description: 'Game is Finished'.
+]
+
+{ #category : #tests }
 GameTest >> testPlayAGameTwoPlayerTwoDice6SidesBoardWith10SpacesFixedNormal [
 	| game gameBuilder |
 	gameBuilder := GameBuilder new.
@@ -84,8 +109,6 @@ GameTest >> testPlayAGameTwoPlayerTwoDice6SidesBoardWith10SpacesFixedNormal [
 	gameBuilder addSequencedDiceWithSides: 6.
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
-	game playRound.
-	game playRound.
+	1 to: 2 do: [:i | game playRound. ].
 	self should:[ game playRound ]raise: AssertionFailure description: 'Game is Finished'.
-	
 ]

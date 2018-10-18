@@ -36,3 +36,8 @@ Class {
 MoonWalk >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer [
 	self shouldBeImplemented.
 ]
+
+{ #category : #playing }
+MoonWalk >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
+	self shouldBeImplemented.
+]
