@@ -32,15 +32,24 @@ Class {
 	#instVars : [
 		'players',
 		'dices',
-		'boardSpaces'
+		'boardSpaces',
+		'laps'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #build }
-GameBuilder >> addBoardWithSpaces: anInteger [
+GameBuilder >> addBoardWithSpaces: anAmountOfSpaces withLaps: anAmountOfLaps [
 	
-    boardSpaces :=  anInteger 
+	 1 to: anAmountOfSpaces do: [:i | boardSpaces add: (Space createSpace)].
+	laps:=anAmountOfLaps .
+]
+
+{ #category : #build }
+GameBuilder >> addBoardWithSpaces: anAmountOfSpaces withLaps: anAmountOfLaps fixedWith: aFixed [
+	
+	 1 to: anAmountOfSpaces do: [:i | boardSpaces add: (Space createSpaceFixed: aFixed)].
+	laps:=anAmountOfLaps .
 ]
 
 { #category : #build }
@@ -69,7 +78,7 @@ GameBuilder >> assertDicesNotEmpty [
 
 { #category : #build }
 GameBuilder >> assertGameHasABoard [
-	boardSpaces isNaN
+	boardSpaces isEmpty
 		ifTrue: [ AssertionFailure signal: 'the game has no board' ]
 ]
 
@@ -89,10 +98,12 @@ GameBuilder >> build [
 		playedBy: players
 		throwing: dices
 		on: boardSpaces
+		withLaps: laps
 ]
 
 { #category : #initialization }
 GameBuilder >> initialize [
 	players := OrderedCollection new.
 	dices := OrderedCollection new.
+	boardSpaces := OrderedCollection new.
 ]
