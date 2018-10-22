@@ -72,3 +72,8 @@ Space class >> createSpaceFixed: aFixation [
 	
 	
 ]
+
+{ #category : #accessing }
+Space >> doSpaceActionOn: arg1 withCurrentPlayer: arg2 withSpaces: arg3 andLaps: arg4 [ 
+	^ self subclassResponsibility
+]

@@ -26,16 +26,8 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #Normal,
 	#superclass : #Space,
-	#instVars : [
-		'type'
-	],
 	#category : #'IngSoft2-Model'
 }
-
-{ #category : #playing }
-Normal >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer [
-
-]
 
 { #category : #playing }
 Normal >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [

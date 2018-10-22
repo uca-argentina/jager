@@ -54,6 +54,11 @@ Ranking >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength [
 	ifFalse: [ position := position + aNumberOfSpaces. ]
 ]
 
+{ #category : #'as yet unclassified' }
+Ranking >> getBombed [
+	position := 0.
+]
+
 { #category : #initialization }
 Ranking >> initializeAtStart: aPlayer [ 
 	player := aPlayer.
@@ -82,7 +87,7 @@ Ranking >> position [
 ]
 
 { #category : #Accessing }
-Ranking >> recedePositionBy: aNumberOfSpaces withSpaces: aBoardLength [
+Ranking >> recedePositionBy: aNumberOfSpaces [
 |temporarySpaces|
 	((position - aNumberOfSpaces ) < 0)
 	ifTrue: [ 

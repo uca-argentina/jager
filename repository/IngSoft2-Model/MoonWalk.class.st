@@ -27,17 +27,17 @@ Class {
 	#name : #MoonWalk,
 	#superclass : #Space,
 	#instVars : [
-		'type'
+		'spaces'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #playing }
-MoonWalk >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer [
-	self shouldBeImplemented.
+MoonWalk >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
+	aCollectionOfPlayers do: [:player | aPlayer = player ifFalse: [player recedePositionBy: spaces ]].
 ]
 
-{ #category : #playing }
-MoonWalk >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
-	self shouldBeImplemented.
+{ #category : #initialization }
+MoonWalk >> initialize [
+	spaces := ((Random new) nextInt: 5) asInteger.
 ]
