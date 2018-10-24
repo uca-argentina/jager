@@ -17,22 +17,27 @@ Public API and Key Messages
  
 Internal Representation and Key Implementation Points.
 
+    Instance Variables
+	type:		<Object>
+
 
     Implementation Points
 "
 Class {
-	#name : #ActiveStatus,
-	#superclass : #Status,
+	#name : #MoonWalk,
+	#superclass : #Space,
+	#instVars : [
+		'spaces'
+	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #accessing }
-ActiveStatus >> isFinished: aRanking length: laps in: aGame [
-	(aRanking anySatisfy: [ :index | index laps > (laps-1) ])
-	ifTrue: [ aGame changeStatusToFinished ].
+{ #category : #playing }
+MoonWalk >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
+	aCollectionOfPlayers do: [:player | aPlayer = player ifFalse: [player recedePositionBy: spaces ]].
 ]
 
-{ #category : #play }
-ActiveStatus >> playRound [
-	
+{ #category : #initialization }
+MoonWalk >> initialize [
+	spaces := ((Random new) nextInt: 5) asInteger.
 ]

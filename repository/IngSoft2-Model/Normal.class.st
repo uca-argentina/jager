@@ -17,22 +17,19 @@ Public API and Key Messages
  
 Internal Representation and Key Implementation Points.
 
+    Instance Variables
+	type:		<Object>
+
 
     Implementation Points
 "
 Class {
-	#name : #ActiveStatus,
-	#superclass : #Status,
+	#name : #Normal,
+	#superclass : #Space,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #accessing }
-ActiveStatus >> isFinished: aRanking length: laps in: aGame [
-	(aRanking anySatisfy: [ :index | index laps > (laps-1) ])
-	ifTrue: [ aGame changeStatusToFinished ].
-]
+{ #category : #playing }
+Normal >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
 
-{ #category : #play }
-ActiveStatus >> playRound [
-	
 ]

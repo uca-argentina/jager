@@ -29,7 +29,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'player',
-		'position'
+		'position',
+		'laps'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -44,10 +45,30 @@ Ranking >> advancePositionBy: aNumberOfSpaces [
 	position := position + aNumberOfSpaces.
 ]
 
+{ #category : #Accessing }
+Ranking >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength [
+	((position + aNumberOfSpaces ) > aBoardLength )
+	ifTrue: [ position := position + aNumberOfSpaces.
+				position := position - aBoardLength.
+				laps:= laps +1. ]
+	ifFalse: [ position := position + aNumberOfSpaces. ]
+]
+
+{ #category : #'as yet unclassified' }
+Ranking >> getBombed [
+	position := 0.
+]
+
 { #category : #initialization }
 Ranking >> initializeAtStart: aPlayer [ 
 	player := aPlayer.
 	position := 0.
+	laps := 0.
+]
+
+{ #category : #Accessing }
+Ranking >> laps [
+	^laps.
 ]
 
 { #category : #Accessing }
@@ -63,4 +84,19 @@ Ranking >> player [
 { #category : #Accessing }
 Ranking >> position [
 	^position.
+]
+
+{ #category : #Accessing }
+Ranking >> recedePositionBy: aNumberOfSpaces [
+|temporarySpaces|
+	((position - aNumberOfSpaces ) < 0)
+	ifTrue: [ 
+		laps = 0
+		ifTrue:[position := 0.]
+		ifFalse:[
+				temporarySpaces := aNumberOfSpaces - position.
+				position := position - temporarySpaces.
+				laps := laps -1.]
+				]
+	ifFalse: [ position := position - aNumberOfSpaces. ]
 ]
