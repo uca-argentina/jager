@@ -66,7 +66,9 @@ Space class >> createSpaceFixed: aFixation [
 	aFixation < 88
 	ifTrue:[^SpeedUp new].
 	aFixation < 98
+
 	ifTrue:[^MoonWalkFixed new].
+
 	aFixation < 100
 	ifTrue:[^AtomicBomb new].
 	
