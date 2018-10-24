@@ -26,18 +26,10 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #WormHole,
 	#superclass : #Space,
-	#instVars : [
-		'type'
-	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #playing }
-WormHole >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer [
-	aPlayer advancePositionBy: -4.
-]
-
-{ #category : #playing }
 WormHole >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
-	aPlayer recedePositionBy: 4 withSpaces: amountSpaces.
+	aPlayer recedePositionBy: 4
 ]

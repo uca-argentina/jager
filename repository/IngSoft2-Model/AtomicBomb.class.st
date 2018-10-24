@@ -26,19 +26,11 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #AtomicBomb,
 	#superclass : #Space,
-	#instVars : [
-		'type'
-	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #playing }
-AtomicBomb >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer [
-	self shouldBeImplemented.
-]
-
-{ #category : #playing }
 AtomicBomb >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
-	self shouldBeImplemented.
+	aCollectionOfPlayers do: [ :player | player getBombed].
 
 ]

@@ -26,17 +26,8 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #SpeedUp,
 	#superclass : #Space,
-	#instVars : [
-		'type'
-	],
 	#category : #'IngSoft2-Model'
 }
-
-{ #category : #playing }
-SpeedUp >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer [
-		"aRanking advancePositionBy: 4 withSpaces: (boardSpaces size)."
-
-]
 
 { #category : #playing }
 SpeedUp >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [

@@ -78,7 +78,6 @@ Game >> find: aPlayer [
 { #category : #initialization }
 Game >> initializePlayerPositions [
 	playerPositions addAll: (players collect: [ :player | playerPositions add:( Ranking PositionPlayer: player ) ]).
-	
 ]
 
 { #category : #play }
