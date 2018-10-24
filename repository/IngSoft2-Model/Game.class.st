@@ -77,7 +77,9 @@ Game >> find: aPlayer [
 
 { #category : #initialization }
 Game >> initializePlayerPositions [
+
 	playerPositions addAll: (players collect: [ :player | ( Ranking PositionPlayer: player ) ]).
+
 ]
 
 { #category : #play }
@@ -97,6 +99,19 @@ Game >> playRound [
 { #category : #play }
 Game >> playTurn: aRanking [
 	aRanking advancePositionBy: self rollDices withSpaces: (boardSpaces size).
+]
+
+{ #category : #initialization }
+Game >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard withLaps: someLaps [
+	players := OrderedCollection new.
+	playerPositions := OrderedCollection new.
+	dices := OrderedCollection new.
+	status := ActiveStatus new.
+	players := aPlayerSet.
+	dices := aDiceSet.
+	boardSpaces := aBoard.
+	laps:= someLaps.
+	self initializePlayerPositions
 ]
 
 { #category : #initialization }
