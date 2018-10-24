@@ -40,4 +40,5 @@ MoonWalk >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer wit
 { #category : #initialization }
 MoonWalk >> initialize [
 	spaces := ((Random new) nextInt: 5) asInteger.
+	
 ]
