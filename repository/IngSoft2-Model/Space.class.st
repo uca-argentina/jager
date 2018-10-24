@@ -32,11 +32,6 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #adaptToInteger }
-Space class >> adaptToNumber: anInteger andSend: aString [ 
-	self size.
-]
-
 { #category : #initialization }
 Space class >> createSpace [
 	|rand |

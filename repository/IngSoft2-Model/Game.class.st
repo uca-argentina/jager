@@ -100,18 +100,6 @@ Game >> playTurn: aRanking [
 ]
 
 { #category : #initialization }
-Game >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard [
-	players := OrderedCollection new.
-	playerPositions := OrderedCollection new.
-	dices := OrderedCollection new.
-	status := ActiveStatus new.
-	players := aPlayerSet.
-	dices := aDiceSet.
-	boardSpaces := aBoard.
-	self initializePlayerPositions
-]
-
-{ #category : #initialization }
 Game >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard withLaps: someLaps [
 	players := OrderedCollection new.
 	playerPositions := OrderedCollection new.
