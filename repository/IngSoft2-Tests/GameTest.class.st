@@ -46,6 +46,7 @@ GameTest >> testPlayAGameFourPlayerTwoDice6SidesBoardWith10SpacesFixedNormal [
 ]
 
 { #category : #tests }
+
 GameTest >> testPlayAGameFourPlayersOneDice4SidesBoardWith50SpacesFixedNormalGetTop3 [
 	| game gameBuilder |
 	gameBuilder := GameBuilder new. 
@@ -106,6 +107,7 @@ GameTest >> testPlayAGameOnePlayerOneDice6SidesBoardWith10SpacesFixedWormHole [
 	| game gameBuilder |
 	gameBuilder := GameBuilder new. 
 	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:60. 
+
 	gameBuilder addPlayerNamed: 'Santiago'.
 	gameBuilder addSequencedDiceWithSides: 15.
 	game := gameBuilder build.
@@ -119,6 +121,7 @@ GameTest >> testPlayAGameTwoPlayerTwoDice6SidesBoardWith10SpacesFixedAtomic [
 	gameBuilder := GameBuilder new. 
 	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:99. 
 	gameBuilder addPlayerNamed: 'Santiago'.
+
 	gameBuilder addSequencedDiceWithSides: 6.
 	gameBuilder addPlayerNamed: 'Nacho'.
 	gameBuilder addSequencedDiceWithSides: 6.
@@ -126,6 +129,7 @@ GameTest >> testPlayAGameTwoPlayerTwoDice6SidesBoardWith10SpacesFixedAtomic [
 	game playRound.
 	game playRound.
 	game playRound.	
+
 	self should:[ game playRound ]raise: AssertionFailure description: 'Game is Finished'.
 ]
 
