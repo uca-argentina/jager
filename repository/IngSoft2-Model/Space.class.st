@@ -32,11 +32,6 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #adaptToInteger }
-Space class >> adaptToNumber: anInteger andSend: aString [ 
-	self size.
-]
-
 { #category : #initialization }
 Space class >> createSpace [
 	|rand |
@@ -66,7 +61,9 @@ Space class >> createSpaceFixed: aFixation [
 	aFixation < 88
 	ifTrue:[^SpeedUp new].
 	aFixation < 98
-	ifTrue:[^MoonWalk new].
+
+	ifTrue:[^MoonWalkFixed new].
+
 	aFixation < 100
 	ifTrue:[^AtomicBomb new].
 	

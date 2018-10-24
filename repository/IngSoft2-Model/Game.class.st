@@ -77,7 +77,9 @@ Game >> find: aPlayer [
 
 { #category : #initialization }
 Game >> initializePlayerPositions [
-	playerPositions addAll: (players collect: [ :player | playerPositions add:( Ranking PositionPlayer: player ) ]).
+
+	playerPositions addAll: (players collect: [ :player | ( Ranking PositionPlayer: player ) ]).
+
 ]
 
 { #category : #play }
@@ -100,7 +102,7 @@ Game >> playTurn: aRanking [
 ]
 
 { #category : #initialization }
-Game >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard [
+Game >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard withLaps: someLaps [
 	players := OrderedCollection new.
 	playerPositions := OrderedCollection new.
 	dices := OrderedCollection new.
@@ -108,6 +110,7 @@ Game >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard [
 	players := aPlayerSet.
 	dices := aDiceSet.
 	boardSpaces := aBoard.
+	laps:= someLaps.
 	self initializePlayerPositions
 ]
 
@@ -157,6 +160,16 @@ Game >> rankPlayers: someLaps [
 { #category : #play }
 Game >> rollDices [
 	^dices sumNumbers: [:dice | dice roll ].
+]
+
+{ #category : #play }
+Game >> topThree [
+	^	 'First is: ', 
+		(playerPositions at: 1) name,
+		'. Second is: ', 
+		(playerPositions at: 2) name,
+		'. Third is: ', 
+		(playerPositions at: 3) name.
 ]
 
 { #category : #play }

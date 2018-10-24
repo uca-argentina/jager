@@ -18,13 +18,13 @@ Public API and Key Messages
 Internal Representation and Key Implementation Points.
 
     Instance Variables
-	type:		<Object>
+	spaces:		<Object>
 
 
     Implementation Points
 "
 Class {
-	#name : #MoonWalk,
+	#name : #MoonWalkFixed,
 	#superclass : #Space,
 	#instVars : [
 		'spaces'
@@ -33,12 +33,11 @@ Class {
 }
 
 { #category : #playing }
-MoonWalk >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
+MoonWalkFixed >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
 	aCollectionOfPlayers do: [:player | aPlayer = player ifFalse: [player recedePositionBy: spaces ]].
 ]
 
 { #category : #initialization }
-MoonWalk >> initialize [
-	spaces := ((Random new) nextInt: 5) asInteger.
-
+MoonWalkFixed >> initialize [
+	spaces := 2.
 ]
