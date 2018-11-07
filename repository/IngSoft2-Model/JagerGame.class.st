@@ -28,7 +28,7 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #Game,
+	#name : #JagerGame,
 	#superclass : #Object,
 	#instVars : [
 		'players',
@@ -41,49 +41,54 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #initializing }
-Game class >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard [
+{ #category : #'instance creation' }
+JagerGame class >> initializePlayedBy: aPlayerSet throwing: aDiceSet on: aBoard withLaps: someLaps [
 	^ self new
-		playedBy: aPlayerSet
-		throwing: aDiceSet
-		on: aBoard
-]
-
-{ #category : #initializing }
-Game class >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard withLaps: someLaps [
-	^ self new
-		playedBy: aPlayerSet
+		initializePlayedBy: aPlayerSet
 		throwing: aDiceSet
 		on: aBoard
 		withLaps: someLaps
 ]
 
 { #category : #accessing }
-Game >> changeStatusToFinished [
+JagerGame >> changeStatusToFinished [
 	status := FinishedStatus new.
 ]
 
 { #category : #play }
-Game >> doSpaceEfect: aRanking inSpace: aSpace [
+JagerGame >> doSpaceEfect: aRanking inSpace: aSpace [
 	aSpace doSpaceActionOn: playerPositions withCurrentPlayer: aRanking withSpaces: (boardSpaces size) andLaps: laps.
 
 ]
 
 { #category : #accessing }
-Game >> find: aPlayer [
+JagerGame >> find: aPlayer [
 	^ playerPositions
 				detect: [ :aRanking | aRanking player = aPlayer ].
 ]
 
 { #category : #initialization }
-Game >> initializePlayerPositions [
+JagerGame >> initializePlayedBy: aPlayerSet throwing: aDiceSet on: aBoard withLaps: someLaps [
+	players := OrderedCollection new.
+	playerPositions := OrderedCollection new.
+	dices := OrderedCollection new.
+	status := ActiveStatus new.
+	players := aPlayerSet.
+	dices := aDiceSet.
+	boardSpaces := aBoard.
+	laps:= someLaps.
+	self initializePlayerPositions
+]
+
+{ #category : #initialization }
+JagerGame >> initializePlayerPositions [
 
 	playerPositions addAll: (players collect: [ :player | ( Ranking PositionPlayer: player ) ]).
 
 ]
 
 { #category : #play }
-Game >> playRound [
+JagerGame >> playRound [
 	| temporaryPlayer |
 	status playRound.
 	players
@@ -97,38 +102,12 @@ Game >> playRound [
 ]
 
 { #category : #play }
-Game >> playTurn: aRanking [
+JagerGame >> playTurn: aRanking [
 	aRanking advancePositionBy: self rollDices withSpaces: (boardSpaces size).
 ]
 
-{ #category : #initialization }
-Game >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard withLaps: someLaps [
-	players := OrderedCollection new.
-	playerPositions := OrderedCollection new.
-	dices := OrderedCollection new.
-	status := ActiveStatus new.
-	players := aPlayerSet.
-	dices := aDiceSet.
-	boardSpaces := aBoard.
-	laps:= someLaps.
-	self initializePlayerPositions
-]
-
-{ #category : #initialization }
-Game >> playedBy: aPlayerSet throwing: aDiceSet on: aBoard withLaps: someLaps [
-	players := OrderedCollection new.
-	playerPositions := OrderedCollection new.
-	dices := OrderedCollection new.
-	status := ActiveStatus new.
-	players := aPlayerSet.
-	dices := aDiceSet.
-	boardSpaces := aBoard.
-	laps:= someLaps.
-	self initializePlayerPositions
-]
-
 { #category : #accessing }
-Game >> playerNames [
+JagerGame >> playerNames [
 	| playerNames |
 	playerNames := OrderedCollection new.
 	playerNames addAll: (players collect: [:player | player name]).
@@ -137,12 +116,12 @@ Game >> playerNames [
 ]
 
 { #category : #accessing }
-Game >> players [
+JagerGame >> players [
 	^ players
 ]
 
 { #category : #play }
-Game >> rankPlayers [
+JagerGame >> rankPlayers [
 
 	playerPositions sort: #position descending, #name ascending.
 	status isFinished: playerPositions length: (boardSpaces size) in: self.
@@ -150,7 +129,7 @@ Game >> rankPlayers [
 ]
 
 { #category : #play }
-Game >> rankPlayers: someLaps [
+JagerGame >> rankPlayers: someLaps [
 
 	playerPositions sort: #laps descending, #position descending, #name ascending.
 	status isFinished: playerPositions length: (someLaps) in: self.
@@ -158,12 +137,12 @@ Game >> rankPlayers: someLaps [
 ]
 
 { #category : #play }
-Game >> rollDices [
+JagerGame >> rollDices [
 	^dices sumNumbers: [:dice | dice roll ].
 ]
 
 { #category : #play }
-Game >> topThree [
+JagerGame >> topThree [
 	^	 'First is: ', 
 		(playerPositions at: 1) name,
 		'. Second is: ', 
@@ -173,6 +152,6 @@ Game >> topThree [
 ]
 
 { #category : #play }
-Game >> winner [
+JagerGame >> winner [
 	^ (playerPositions at: 1) name.
 ]

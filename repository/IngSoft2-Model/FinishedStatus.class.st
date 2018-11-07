@@ -22,16 +22,16 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #FinishedStatus,
-	#superclass : #Status,
+	#superclass : #GameStatus,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #accessing }
+{ #category : #testing }
 FinishedStatus >> isFinished: aRanking length: aBoardLength in: aGame [
 	^true.
 ]
 
-{ #category : #play }
+{ #category : #playing }
 FinishedStatus >> playRound [
 	AssertionFailure signal: 'Game is finished'.
 ]

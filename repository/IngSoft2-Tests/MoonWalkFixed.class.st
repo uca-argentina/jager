@@ -17,21 +17,27 @@ Public API and Key Messages
  
 Internal Representation and Key Implementation Points.
 
+    Instance Variables
+	spaces:		<Object>
+
 
     Implementation Points
 "
 Class {
-	#name : #Status,
-	#superclass : #Object,
-	#category : #'IngSoft2-Model'
+	#name : #MoonWalkFixed,
+	#superclass : #Space,
+	#instVars : [
+		'spaces'
+	],
+	#category : #'IngSoft2-Tests'
 }
 
-{ #category : #accessing }
-Status >> isFinished: aRanking length: aBoardLength in: aGame [
-	self shouldBeImplemented.
+{ #category : #playing }
+MoonWalkFixed >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
+	aCollectionOfPlayers do: [:player | aPlayer = player ifFalse: [player recedePositionBy: spaces ]].
 ]
 
-{ #category : #play }
-Status >> playRound [
-	self shouldBeImplemented.
+{ #category : #initialization }
+MoonWalkFixed >> initialize [
+	spaces := 2.
 ]
