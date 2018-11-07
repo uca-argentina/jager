@@ -54,7 +54,7 @@ Ranking >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength [
 	ifFalse: [ position := position + aNumberOfSpaces. ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #Accessing }
 Ranking >> getBombed [
 	position := 0.
 ]
@@ -87,16 +87,19 @@ Ranking >> position [
 ]
 
 { #category : #Accessing }
+Ranking >> recedeLaps: aNumberOfSpaces [
+	| temporarySpaces |
+	laps = 0
+		ifTrue: [ position := 0 ]
+		ifFalse: [ temporarySpaces := aNumberOfSpaces - position.
+			position := position - temporarySpaces.
+			laps := laps - 1 ]
+]
+
+{ #category : #Accessing }
 Ranking >> recedePositionBy: aNumberOfSpaces [
-|temporarySpaces|
-	((position - aNumberOfSpaces ) < 0)
-	ifTrue: [ 
-		laps = 0
-		ifTrue:[position := 0.]
-		ifFalse:[
-				temporarySpaces := aNumberOfSpaces - position.
-				position := position - temporarySpaces.
-				laps := laps -1.]
-				]
-	ifFalse: [ position := position - aNumberOfSpaces. ]
+	(position - aNumberOfSpaces) negative
+		ifTrue:
+			[ self recedeLaps: aNumberOfSpaces ]
+		ifFalse: [ position := position - aNumberOfSpaces ]
 ]

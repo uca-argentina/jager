@@ -27,7 +27,7 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #GameBuilder,
+	#name : #JagerGameBuilder,
 	#superclass : #Object,
 	#instVars : [
 		'players',
@@ -39,70 +39,70 @@ Class {
 }
 
 { #category : #build }
-GameBuilder >> addBoardWithSpaces: anAmountOfSpaces withLaps: anAmountOfLaps [
+JagerGameBuilder >> addBoardWithSpaces: anAmountOfSpaces withLaps: anAmountOfLaps [
 	
 	 1 to: anAmountOfSpaces do: [:i | boardSpaces add: (Space createSpace)].
 	laps:=anAmountOfLaps .
 ]
 
 { #category : #build }
-GameBuilder >> addBoardWithSpaces: anAmountOfSpaces withLaps: anAmountOfLaps fixedWith: aFixed [
+JagerGameBuilder >> addBoardWithSpaces: anAmountOfSpaces withLaps: anAmountOfLaps fixedWith: aFixed [
 	
 	 1 to: anAmountOfSpaces do: [:i | boardSpaces add: (Space createSpaceFixed: aFixed)].
 	laps:=anAmountOfLaps .
 ]
 
 { #category : #build }
-GameBuilder >> addDiceWithSides: anInteger [
+JagerGameBuilder >> addDiceWithSides: anInteger [
 	
 	dices add:(Dice withNumOfSides: anInteger)
 ]
 
 { #category : #build }
-GameBuilder >> addPlayerNamed: aName [
+JagerGameBuilder >> addPlayerNamed: aName [
 	
     players add: aName.
 ]
 
 { #category : #build }
-GameBuilder >> addSequencedDiceWithSides: anInteger [
+JagerGameBuilder >> addSequencedDiceWithSides: anInteger [
 	
 	dices add:(SequencedDice withNumOfSides: anInteger)
 ]
 
 { #category : #build }
-GameBuilder >> assertDicesNotEmpty [
+JagerGameBuilder >> assertDicesNotEmpty [
 	dices isEmpty
 		ifTrue: [ AssertionFailure signal: 'can not create a game without dice' ]
 ]
 
 { #category : #build }
-GameBuilder >> assertGameHasABoard [
+JagerGameBuilder >> assertGameHasABoard [
 	boardSpaces isEmpty
 		ifTrue: [ AssertionFailure signal: 'the game has no board' ]
 ]
 
 { #category : #build }
-GameBuilder >> assertPlayersNotEmpty [
+JagerGameBuilder >> assertPlayersNotEmpty [
 	players isEmpty
 		ifTrue: [ AssertionFailure signal: 'can not create a game without a player' ]
 ]
 
 { #category : #build }
-GameBuilder >> build [
+JagerGameBuilder >> build [
 	self
 		assertPlayersNotEmpty;
 		assertDicesNotEmpty;
 		assertGameHasABoard.
-	^ Game
-		playedBy: players
+	^ JagerGame
+		initializePlayedBy: players
 		throwing: dices
 		on: boardSpaces
 		withLaps: laps
 ]
 
 { #category : #initialization }
-GameBuilder >> initialize [
+JagerGameBuilder >> initialize [
 	players := OrderedCollection new.
 	dices := OrderedCollection new.
 	boardSpaces := OrderedCollection new.

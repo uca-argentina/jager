@@ -34,7 +34,7 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
-{ #category : #initialization }
+{ #category : #'instance creation' }
 SequencedDice class >> withNumOfSides: anInteger [ 
 	(anInteger <= 1) ifTrue: [ ^AssertionFailure signal: 'Dice cant have less than 2 faces' ].
 	^ self new initializeWithSides: anInteger.

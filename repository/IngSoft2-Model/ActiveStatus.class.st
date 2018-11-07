@@ -22,17 +22,17 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #ActiveStatus,
-	#superclass : #Status,
+	#superclass : #GameStatus,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #accessing }
+{ #category : #testing }
 ActiveStatus >> isFinished: aRanking length: laps in: aGame [
 	(aRanking anySatisfy: [ :index | index laps > (laps-1) ])
 	ifTrue: [ aGame changeStatusToFinished ].
 ]
 
-{ #category : #play }
+{ #category : #playing }
 ActiveStatus >> playRound [
 	
 ]
