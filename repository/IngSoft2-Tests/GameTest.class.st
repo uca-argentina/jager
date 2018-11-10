@@ -25,12 +25,12 @@ GameTest >> testAtomicBomb [
 	gameBuilder addPlayerNamed: 'Nacho'.
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
-	game playRound.
-	game playRound.
+	game playTurn.
+	game playTurn.
 
-	game playRound.	
-
-	self should:[ game playRound ]raise: AssertionFailure description: 'Game is Finished'.
+	game playTurn.	
+	1 to: 3 do: [:i |game playTurn].
+	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
 ]
 
 { #category : #tests }
@@ -41,12 +41,12 @@ GameTest >> testCantPlayFinishedGame [
 	gameBuilder addPlayerNamed: 'Santiago'.
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
-	game playRound.
-	game playRound.
-	game playRound.
-	game playRound.
-	game playRound.
-	self should:[ game playRound ]raise: AssertionFailure description: 'Game is Finished'.
+	game playTurn.
+	game playTurn.
+	game playTurn.
+	game playTurn.
+	game playTurn.
+	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
 ]
 
 { #category : #tests }
@@ -58,8 +58,8 @@ GameTest >> testGetTop3 [
 	gameBuilder addPlayerNamed: 'Santiago3'.gameBuilder addPlayerNamed: 'Santiago4'.
 	gameBuilder addSequencedDiceWithSides: 4.
 	game := gameBuilder build.
-	1 to: 13 do: [:i | game playRound. ].
-	self should:[ game playRound ]raise: AssertionFailure description: 'Game is Finished'.
+	1 to: 52 do: [:i | game playTurn. ].
+	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
 	self assert: game topThree equals: 'First is: Santiago4. Second is: Santiago3. Third is: Santiago2'.
 ]
 
@@ -72,9 +72,9 @@ GameTest >> testLaps [
 	gameBuilder addPlayerNamed: 'Santiago'.
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
-	game playRound.
-	1 to: 5 do: [:i | game playRound. ].
-	self should:[ game playRound ]raise: AssertionFailure description: 'Game is Finished'.
+	game playTurn.
+	1 to: 5 do: [:i | game playTurn. ].
+	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
 ]
 
 { #category : #tests }
@@ -87,10 +87,9 @@ GameTest >> testMoonwalk [
 	gameBuilder addPlayerNamed: 'Nacho'.
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
-	game playRound.
-	game playRound.
-	game playRound.
-	self should:[ game playRound ]raise: AssertionFailure description: 'Game is Finished'.
+	game playTurn.
+	1 to: 4 do: [:i |game playTurn].
+	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
 ]
 
 { #category : #tests }
@@ -106,9 +105,9 @@ GameTest >> testNormalGame [
 	gameBuilder addSequencedDiceWithSides: 7.
 	gameBuilder addSequencedDiceWithSides: 8.
 	game := gameBuilder build.
-	game playRound.
-	game playRound.
-	1 to: 6 do: [:i | game playRound. ].
+	game playTurn.
+	game playTurn.
+	1 to: 30 do: [:i | game playTurn. ].
 	
 	self assert: game winner equals: 'Juan'.
 
@@ -127,9 +126,11 @@ GameTest >> testShortNomalGame [
 	gameBuilder addSequencedDiceWithSides: 6.
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
-	game playRound.
-	game playRound.
-	self assert: game winner equals: 'Nacho'.
+	game playTurn.
+	game playTurn.
+	game playTurn.
+	1 to: 2 do: [:i |game playTurn].
+	self assert: game winner equals: 'Santiago'.
 	self assert: 1 equals: 1.
 	
 ]
@@ -139,10 +140,10 @@ GameTest >> testSpeedUp [
 	| game gameBuilder |
 	gameBuilder := self buildTemplateWith: 70.
 	game := gameBuilder build.
-	game playRound.
-	game playRound.
+	game playTurn.
+	game playTurn.
 	self
-		should: [ game playRound ]
+		should: [ game playTurn ]
 		raise: AssertionFailure
 		description: 'Game is Finished'
 ]
@@ -153,6 +154,6 @@ GameTest >> testWormhole [
 	gameBuilder := self buildTemplateWith: 60.
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
-	1 to: 5 do: [:i | game playRound. ].
-	self should:[ game playRound ]raise: AssertionFailure description: 'Game is Finished'.
+	1 to: 5 do: [:i | game playTurn. ].
+	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
 ]

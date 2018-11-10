@@ -27,12 +27,19 @@ Class {
 }
 
 { #category : #testing }
+ActiveStatus >> checkFinalized [
+	AssertionFailure signal: 'Game is not finished'.
+]
+
+{ #category : #testing }
 ActiveStatus >> isFinished: aRanking length: laps in: aGame [
-	(aRanking anySatisfy: [ :index | index laps > (laps-1) ])
-	ifTrue: [ aGame changeStatusToFinished ].
+	(aRanking anySatisfy: [ :index | index laps > (laps - 1) ])
+		ifFalse: [ ^ false].
+	aGame changeStatusToFinished.
+	^true
 ]
 
 { #category : #playing }
-ActiveStatus >> playRound [
+ActiveStatus >> playTurn [
 	
 ]

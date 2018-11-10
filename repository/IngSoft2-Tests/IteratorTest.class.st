@@ -21,22 +21,25 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #GameStatus,
-	#superclass : #Object,
-	#category : #'IngSoft2-Model'
+	#name : #IteratorTest,
+	#superclass : #TestCase,
+	#category : #'IngSoft2-Tests'
 }
 
-{ #category : #testing }
-GameStatus >> checkFinalized [
-	self subclassResponsibility.
-]
-
-{ #category : #testing }
-GameStatus >> isFinished: aRanking length: aBoardLength in: aGame [
-	self subclassResponsibility .
-]
-
-{ #category : #playing }
-GameStatus >> playTurn [
-	self subclassResponsibility.
+{ #category : #tests }
+IteratorTest >> testIterator [
+	| players iterator| 
+	players := OrderedCollection new.
+	players add: 'Santiago'.
+	players add: 'Juan'.
+	players add: 'Ignacio'.
+	iterator := CircularIterator iteratingOver: players.
+	self assert: iterator current equals: 'Santiago'.
+	iterator next.
+	self assert: iterator current equals: 'Juan'.
+	iterator next.
+	self assert: iterator current equals: 'Ignacio'.
+	iterator next.
+	self assert: iterator current equals: 'Santiago'.
+	
 ]
