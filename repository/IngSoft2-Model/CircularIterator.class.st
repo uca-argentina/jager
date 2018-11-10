@@ -21,22 +21,37 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #GameStatus,
+	#name : #CircularIterator,
 	#superclass : #Object,
+	#instVars : [
+		'players',
+		'index',
+		'maxIndex'
+	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #testing }
-GameStatus >> checkFinalized [
-	self subclassResponsibility.
+{ #category : #'instance creation' }
+CircularIterator class >> iteratingOver: aCollection [ 
+	^ self new initializeWithCollection: aCollection.
 ]
 
-{ #category : #testing }
-GameStatus >> isFinished: aRanking length: aBoardLength in: aGame [
-	self subclassResponsibility .
+{ #category : #accessing }
+CircularIterator >> current [
+	^ players at: index.
 ]
 
-{ #category : #playing }
-GameStatus >> playTurn [
-	self subclassResponsibility.
+{ #category : #initialization }
+CircularIterator >> initializeWithCollection: aCollection [ 
+	players := aCollection.
+	index := 1.
+	maxIndex := aCollection size.
+	
+]
+
+{ #category : #modifying }
+CircularIterator >> next [
+	index := index + 1 <= maxIndex
+		ifTrue: [ index + 1 ]
+		ifFalse: [ 1 ]
 ]

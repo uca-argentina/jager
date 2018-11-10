@@ -32,6 +32,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'players',
+		'playingTurn',
 		'dices',
 		'playerPositions',
 		'boardSpaces',
@@ -70,6 +71,7 @@ JagerGame >> find: aPlayer [
 { #category : #initialization }
 JagerGame >> initializePlayedBy: aPlayerSet throwing: aDiceSet on: aBoard withLaps: someLaps [
 	players := OrderedCollection new.
+	playingTurn := CircularIterator iteratingOver: aPlayerSet.
 	playerPositions := OrderedCollection new.
 	dices := OrderedCollection new.
 	status := ActiveStatus new.
@@ -88,22 +90,15 @@ JagerGame >> initializePlayerPositions [
 ]
 
 { #category : #play }
-JagerGame >> playRound [
-	| temporaryPlayer |
-	status playRound.
-	players
-		do: [ :aPlayer | 
-			temporaryPlayer :=(self find: aPlayer).
-			self playTurn: temporaryPlayer.
-			self doSpaceEfect: (self find: aPlayer) inSpace: (boardSpaces at:(temporaryPlayer position)).
-			].
+JagerGame >> playTurn [
+	| aPlayer |
+	status playTurn.
+	aPlayer := playerPositions detect:[:aRanking | aRanking player =  playingTurn current].
+	aPlayer advancePositionBy: self rollDices withSpaces: (boardSpaces size).
+	self doSpaceEfect: (self find: (aPlayer player)) inSpace: (boardSpaces at:(aPlayer position)).
+	playingTurn next.
 	self rankPlayers: laps.
 	 
-]
-
-{ #category : #play }
-JagerGame >> playTurn: aRanking [
-	aRanking advancePositionBy: self rollDices withSpaces: (boardSpaces size).
 ]
 
 { #category : #accessing }
@@ -118,14 +113,6 @@ JagerGame >> playerNames [
 { #category : #accessing }
 JagerGame >> players [
 	^ players
-]
-
-{ #category : #play }
-JagerGame >> rankPlayers [
-
-	playerPositions sort: #position descending, #name ascending.
-	status isFinished: playerPositions length: (boardSpaces size) in: self.
-	"As sorted collection:"
 ]
 
 { #category : #play }
@@ -153,5 +140,6 @@ JagerGame >> topThree [
 
 { #category : #play }
 JagerGame >> winner [
-	^ (playerPositions at: 1) name.
+	status checkFinalized.
+	 ^   (playerPositions  at: 1) name.
 ]

@@ -27,11 +27,16 @@ Class {
 }
 
 { #category : #testing }
+FinishedStatus >> checkFinalized [
+	^true.
+]
+
+{ #category : #testing }
 FinishedStatus >> isFinished: aRanking length: aBoardLength in: aGame [
 	^true.
 ]
 
 { #category : #playing }
-FinishedStatus >> playRound [
+FinishedStatus >> playTurn [
 	AssertionFailure signal: 'Game is finished'.
 ]
