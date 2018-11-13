@@ -21,22 +21,22 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #GameStatus,
+	#name : #JagerStatus,
 	#superclass : #Object,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #testing }
-GameStatus >> checkFinalized [
+JagerStatus >> checkFinalized [
 	self subclassResponsibility.
 ]
 
 { #category : #testing }
-GameStatus >> isFinished: aRanking length: aBoardLength in: aGame [
+JagerStatus >> isFinished: aRanking length: aBoardLength in: aGame [
 	self subclassResponsibility .
 ]
 
 { #category : #playing }
-GameStatus >> playTurn [
+JagerStatus >> playTurn [
 	self subclassResponsibility.
 ]

@@ -15,6 +15,32 @@ GameTest >> buildTemplateWith: aNumber [
 ]
 
 { #category : #tests }
+GameTest >> testAccelerationUsage [
+	| game gameBuilder player |
+	gameBuilder := self buildTemplateWith: 40.
+	game := gameBuilder build.
+	game playTurn.
+	player := game currentPlayer.
+	player
+		addCard: 3;
+		playCard: Acceleration new inGame: game forPlayers: player;
+		addCard: 3;
+		playCard: Acceleration new inGame: game forPlayers: player;
+		addCard: 3;
+		playCard: Acceleration new inGame: game forPlayers: player;
+		addCard: 3;
+		playCard: Acceleration new inGame: game forPlayers: player;
+		addCard: 3;
+		playCard: Acceleration new inGame: game forPlayers: player;
+		addCard: 3;
+		playCard: Acceleration new inGame: game forPlayers: player;
+		addCard: 3;
+		playCard: Acceleration new inGame: game forPlayers: player.
+	1 to: 2 do: [ :i | game playTurn ].
+	self should: [ game playTurn ] raise: AssertionFailure description: 'Game is Finished'
+]
+
+{ #category : #tests }
 GameTest >> testAtomicBomb [
 	| game gameBuilder |
 	gameBuilder := JagerGameBuilder new. 
@@ -34,6 +60,37 @@ GameTest >> testAtomicBomb [
 ]
 
 { #category : #tests }
+GameTest >> testCancellationUsage [
+	| game gameBuilder player |
+	gameBuilder := self buildTemplateWith: 40.
+	game := gameBuilder build.
+	game playTurn.
+	player := game currentPlayer.
+	player
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player.
+	1 to: 6 do: [  :i |
+		player 
+		addCard: 4;
+		playCard: Cancellation new inGame: game forCard: Speed new].
+	1 to: 4 do: [ :i | game playTurn ].
+	self
+		should: [ game playTurn ]
+		raise: AssertionFailure
+		description: 'Game is Finished'
+]
+
+{ #category : #tests }
 GameTest >> testCantPlayFinishedGame [
 	| game gameBuilder |
 	gameBuilder := JagerGameBuilder new. 
@@ -47,6 +104,19 @@ GameTest >> testCantPlayFinishedGame [
 	game playTurn.
 	game playTurn.
 	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
+]
+
+{ #category : #tests }
+GameTest >> testCardGiver [
+	| game gameBuilder |
+	gameBuilder := self buildTemplateWith: 40.
+	game := gameBuilder build.
+	game playTurn.
+	1 to: 4 do: [:i | game playTurn. ].
+	self
+		should: [ game playTurn ]
+		raise: AssertionFailure
+		description: 'Game is Finished'
 ]
 
 { #category : #tests }
@@ -115,6 +185,112 @@ GameTest >> testNormalGame [
 ]
 
 { #category : #tests }
+GameTest >> testOverloadUsage [
+	| game gameBuilder player |
+	gameBuilder := self buildTemplateWith: 40.
+	game := gameBuilder build.
+	game playTurn.
+	player := game currentPlayer.
+	player
+		addCard: 1;
+		playCard: Overload new inGame: game forPlayers: player;
+		addCard: 1;
+		playCard: Overload new inGame: game forPlayers: player;
+		addCard: 1;
+		playCard: Overload new inGame: game forPlayers: player;
+		addCard: 1;
+		playCard: Overload new inGame: game forPlayers: player;
+		addCard: 1;
+		playCard: Overload new inGame: game forPlayers: player;
+		addCard: 1;
+		playCard: Overload new inGame: game forPlayers: player;
+		addCard: 1;
+		playCard: Overload new inGame: game forPlayers: player.
+	1 to: 500 do: [ :i | game playTurn ].
+	self
+		shouldnt:[ game playTurn ]
+		raise: AssertionFailure
+		description: 'Game is Finished'
+]
+
+{ #category : #tests }
+GameTest >> testRedoUsage [
+	| game gameBuilder player |
+	gameBuilder := self buildTemplateWith: 40.
+	game := gameBuilder build.
+	game playTurn.
+	player := game currentPlayer.
+	player
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 5;
+		playCard: Redo new inGame: game forPlayers: player.
+	1 to: 2 do: [ :i | game playTurn ].
+	self
+		should: [ game playTurn ]
+		raise: AssertionFailure
+		description: 'Game is Finished'
+]
+
+{ #category : #tests }
+GameTest >> testRedoUsageNoCardsPlayed [
+	| game gameBuilder player |
+	gameBuilder := self buildTemplateWith: 40.
+	game := gameBuilder build.
+	game playTurn.
+	player := game currentPlayer.
+	player
+		addCard: 5;
+		playCard: Redo new inGame: game forPlayers: player.
+	1 to: 4 do: [ :i | game playTurn ].
+	self
+		should: [ game playTurn ]
+		raise: AssertionFailure
+		description: 'Game is Finished'
+]
+
+{ #category : #tests }
+GameTest >> testRepeatUsage [
+	| game gameBuilder player |
+	gameBuilder := self buildTemplateWith: 40.
+	game := gameBuilder build.
+	game playTurn.
+	player := game currentPlayer.
+	player
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player.
+	1 to: 6 do: [  :i |
+		player 
+		addCard: 6;
+		playCard: Repeat new inGame: game forPlayers: player].
+	1 to: 2 do: [ :i | game playTurn ].
+	self
+		should: [ game playTurn ]
+		raise: AssertionFailure
+		description: 'Game is Finished'
+]
+
+{ #category : #tests }
 GameTest >> testShortNomalGame [
 	| game gameBuilder |
 	gameBuilder := JagerGameBuilder new.
@@ -142,6 +318,35 @@ GameTest >> testSpeedUp [
 	game := gameBuilder build.
 	game playTurn.
 	game playTurn.
+	self
+		should: [ game playTurn ]
+		raise: AssertionFailure
+		description: 'Game is Finished'
+]
+
+{ #category : #tests }
+GameTest >> testSpeedUsage [
+	| game gameBuilder player |
+	gameBuilder := self buildTemplateWith: 40.
+	game := gameBuilder build.
+	game playTurn.
+	player := game currentPlayer.
+	player
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player.
+	1 to: 2 do: [ :i | game playTurn ].
 	self
 		should: [ game playTurn ]
 		raise: AssertionFailure

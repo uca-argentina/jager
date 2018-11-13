@@ -21,22 +21,12 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #FinishedStatus,
-	#superclass : #JagerStatus,
+	#name : #CardGiver,
+	#superclass : #Space,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #testing }
-FinishedStatus >> checkFinalized [
-	^true.
-]
-
-{ #category : #testing }
-FinishedStatus >> isFinished: aRanking length: aBoardLength in: aGame [
-	^true.
-]
-
-{ #category : #playing }
-FinishedStatus >> playTurn [
-	AssertionFailure signal: 'Game is finished'.
+{ #category : #accessing }
+CardGiver >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: someSpaces andLaps: aNumber [ 
+	aPlayer addCard: 0.
 ]

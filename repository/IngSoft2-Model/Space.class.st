@@ -37,9 +37,11 @@ Space class >> createSpace [
 	|rand |
 	rand := Random new.
 	rand := rand nextInt: 100.
-	rand := rand asInteger.
-	 rand < 48
+	"rand := rand asInteger."
+	rand < 38
 	ifTrue:[^Normal new].
+	rand < 48
+	ifTrue:[^CardGiver new].
 	rand < 68
 	ifTrue:[^WormHole new].
 	rand < 88
@@ -54,8 +56,10 @@ Space class >> createSpace [
 
 { #category : #initialization }
 Space class >> createSpaceFixed: aFixation [
-	aFixation < 48
+	aFixation < 38
 	ifTrue:[^Normal new].
+	aFixation < 48
+	ifTrue:[^CardGiver new].
 	aFixation < 68
 	ifTrue:[^WormHole new].
 	aFixation < 88
