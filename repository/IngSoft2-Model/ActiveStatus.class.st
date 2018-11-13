@@ -22,7 +22,7 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #ActiveStatus,
-	#superclass : #GameStatus,
+	#superclass : #JagerStatus,
 	#category : #'IngSoft2-Model'
 }
 

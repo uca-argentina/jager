@@ -37,7 +37,10 @@ Class {
 		'playerPositions',
 		'boardSpaces',
 		'status',
-		'laps'
+		'laps',
+		'lastSpace',
+		'cards',
+		'lastCard'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -52,13 +55,30 @@ JagerGame class >> initializePlayedBy: aPlayerSet throwing: aDiceSet on: aBoard 
 ]
 
 { #category : #accessing }
+JagerGame >> addPermanentCard: aPermanentCard [ 
+	cards add:aPermanentCard.
+]
+
+{ #category : #accessing }
 JagerGame >> changeStatusToFinished [
 	status := FinishedStatus new.
 ]
 
+{ #category : #playing }
+JagerGame >> currentPlayer [
+	^ playerPositions detect:[:aRanking | aRanking player =  playingTurn current].
+]
+
+{ #category : #playing }
+JagerGame >> discard: aCard [ 
+	| card |
+	card := cards detect:[:anOwnedCard | (anOwnedCard name) = (aCard name)].
+	cards remove: card.
+]
+
 { #category : #play }
-JagerGame >> doSpaceEfect: aRanking inSpace: aSpace [
-	aSpace doSpaceActionOn: playerPositions withCurrentPlayer: aRanking withSpaces: (boardSpaces size) andLaps: laps.
+JagerGame >> doSpaceEfect: aPlayer inSpace: aSpace [
+	aSpace doSpaceActionOn: playerPositions withCurrentPlayer: aPlayer withSpaces: (boardSpaces size) andLaps: laps.
 
 ]
 
@@ -74,12 +94,13 @@ JagerGame >> initializePlayedBy: aPlayerSet throwing: aDiceSet on: aBoard withLa
 	playingTurn := CircularIterator iteratingOver: aPlayerSet.
 	playerPositions := OrderedCollection new.
 	dices := OrderedCollection new.
+	cards := OrderedCollection new.
 	status := ActiveStatus new.
 	players := aPlayerSet.
 	dices := aDiceSet.
 	boardSpaces := aBoard.
 	laps:= someLaps.
-	self initializePlayerPositions
+	self initializePlayerPositions.
 ]
 
 { #category : #initialization }
@@ -89,13 +110,25 @@ JagerGame >> initializePlayerPositions [
 
 ]
 
+{ #category : #accessing }
+JagerGame >> lastCard [
+	^ lastCard
+]
+
+{ #category : #accessing }
+JagerGame >> lastSpace [
+	^ lastSpace
+]
+
 { #category : #play }
 JagerGame >> playTurn [
 	| aPlayer |
 	status playTurn.
 	aPlayer := playerPositions detect:[:aRanking | aRanking player =  playingTurn current].
-	aPlayer advancePositionBy: self rollDices withSpaces: (boardSpaces size).
-	self doSpaceEfect: (self find: (aPlayer player)) inSpace: (boardSpaces at:(aPlayer position)).
+	aPlayer advancePositionBy: self rollDices withSpaces: (boardSpaces size) withCards: cards.
+	(aPlayer position = 0)
+	ifFalse: [self saveSpace: (boardSpaces at:(aPlayer position)).
+	self doSpaceEfect: (self find: (aPlayer player)) inSpace: (boardSpaces at:(aPlayer position))].
 	playingTurn next.
 	self rankPlayers: laps.
 	 
@@ -126,6 +159,16 @@ JagerGame >> rankPlayers: someLaps [
 { #category : #play }
 JagerGame >> rollDices [
 	^dices sumNumbers: [:dice | dice roll ].
+]
+
+{ #category : #accessing }
+JagerGame >> saveCard: aCard [ 
+	lastCard := aCard.
+]
+
+{ #category : #accessing }
+JagerGame >> saveSpace: aSpace [ 
+	lastSpace := aSpace.
 ]
 
 { #category : #play }

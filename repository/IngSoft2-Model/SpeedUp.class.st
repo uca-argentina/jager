@@ -31,6 +31,7 @@ Class {
 
 { #category : #playing }
 SpeedUp >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
-		aPlayer advancePositionBy: 4 withSpaces: amountSpaces.
-
+	| cards |
+	cards := OrderedCollection new.
+	aPlayer advancePositionBy: 4 withSpaces: amountSpaces withCards: cards
 ]

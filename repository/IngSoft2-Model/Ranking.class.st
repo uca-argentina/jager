@@ -30,7 +30,8 @@ Class {
 	#instVars : [
 		'player',
 		'position',
-		'laps'
+		'laps',
+		'cards'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -40,21 +41,75 @@ Ranking class >> PositionPlayer: aPlayer [
 	^ self new initializeAtStart: aPlayer.
 ]
 
-{ #category : #Accessing }
-Ranking >> advancePositionBy: aNumberOfSpaces [ 
-	position := position + aNumberOfSpaces.
+{ #category : #accessing }
+Ranking >> addCard [
+	| aNumber |
+	aNumber := (Random new) nextInt: 6.
+	
+	aNumber = 1 
+	ifTrue: [ cards add: Overload new ].
+	aNumber = 2 
+	ifTrue: [ cards add: Speed new ].
+	aNumber = 3
+	ifTrue: [ cards add: Acceleration new ].
+	aNumber = 4
+	ifTrue: [ cards add: Cancellation new ].
+	aNumber = 5
+	ifTrue: [ cards add: Redo new ].
+	aNumber = 6 
+	ifTrue: [ cards add: Repeat new ].
 ]
 
-{ #category : #Accessing }
-Ranking >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength [
-	((position + aNumberOfSpaces ) > aBoardLength )
-	ifTrue: [ position := position + aNumberOfSpaces.
-				position := position - aBoardLength.
-				laps:= laps +1. ]
-	ifFalse: [ position := position + aNumberOfSpaces. ]
+{ #category : #accessing }
+Ranking >> addCard: aNumber [
+	aNumber = 1
+	ifTrue: [ cards add: Overload new ].
+	aNumber = 2 
+	ifTrue: [ cards add: Speed new ].
+	aNumber = 3
+	ifTrue: [ cards add: Acceleration new ].
+	aNumber = 4
+	ifTrue: [ cards add: Cancellation new ].
+	aNumber = 5
+	ifTrue: [ cards add: Redo new ].
+	aNumber = 6 
+	ifTrue: [ cards add: Repeat new ].
 ]
 
-{ #category : #Accessing }
+{ #category : #accessing }
+Ranking >> addLastCard: aCard [ 
+	cards add: aCard.
+]
+
+{ #category : #accessing }
+Ranking >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength withCards: aCollectionOfCards [
+	| spaces |
+	spaces := cards isEmptyOrNil
+		ifFalse: [ aNumberOfSpaces + (self cardModifications: aCollectionOfCards) ]
+		ifTrue: [ aNumberOfSpaces ].
+	spaces negative
+		ifTrue: [ self recedePositionBy: spaces negated ]
+		ifFalse: [ position + spaces > aBoardLength
+				ifTrue: [ position := position + spaces.
+					position := position - aBoardLength.
+					laps := laps + 1 ]
+				ifFalse: [ position := position + spaces ] ]
+]
+
+{ #category : #playing }
+Ranking >> cardModifications: aCollectionOfCards [
+	^	(aCollectionOfCards sumNumbers: [:card | card cardModifierForPlayer: self]) .
+]
+
+{ #category : #playing }
+Ranking >> discard: aCard [ 
+	| card |
+	card := cards detect:[:anOwnedCard | (anOwnedCard name) = (aCard name)].
+	cards remove: card.
+	
+]
+
+{ #category : #accessing }
 Ranking >> getBombed [
 	position := 0.
 ]
@@ -64,29 +119,42 @@ Ranking >> initializeAtStart: aPlayer [
 	player := aPlayer.
 	position := 0.
 	laps := 0.
+	cards := OrderedCollection new.
+	self addCard.
+	self addCard.
 ]
 
-{ #category : #Accessing }
+{ #category : #accessing }
 Ranking >> laps [
 	^laps.
 ]
 
-{ #category : #Accessing }
+{ #category : #accessing }
 Ranking >> name [
 	^ player.
 ]
 
-{ #category : #Accessing }
+{ #category : #accessing }
+Ranking >> playCard: aCard inGame: aJagerGame forCard: aCanceledCard [
+	aCard playedBy: self inGame: aJagerGame forCard: aCanceledCard.
+]
+
+{ #category : #accessing }
+Ranking >> playCard: aCard inGame: aGame forPlayers: somePlayers [
+	aCard playedBy: self inGame: aGame forPlayers: somePlayers.
+]
+
+{ #category : #accessing }
 Ranking >> player [
 	^ player
 ]
 
-{ #category : #Accessing }
+{ #category : #accessing }
 Ranking >> position [
 	^position.
 ]
 
-{ #category : #Accessing }
+{ #category : #accessing }
 Ranking >> recedeLaps: aNumberOfSpaces [
 	| temporarySpaces |
 	laps = 0
@@ -96,7 +164,7 @@ Ranking >> recedeLaps: aNumberOfSpaces [
 			laps := laps - 1 ]
 ]
 
-{ #category : #Accessing }
+{ #category : #accessing }
 Ranking >> recedePositionBy: aNumberOfSpaces [
 	(position - aNumberOfSpaces) negative
 		ifTrue:

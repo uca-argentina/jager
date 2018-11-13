@@ -21,22 +21,17 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #FinishedStatus,
-	#superclass : #JagerStatus,
+	#name : #PermanentCard,
+	#superclass : #Object,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #testing }
-FinishedStatus >> checkFinalized [
-	^true.
-]
-
-{ #category : #testing }
-FinishedStatus >> isFinished: aRanking length: aBoardLength in: aGame [
-	^true.
+{ #category : #playing }
+PermanentCard >> cardModifierForPlayer: anObject [
+	self subclassResponsibility.
 ]
 
 { #category : #playing }
-FinishedStatus >> playTurn [
-	AssertionFailure signal: 'Game is finished'.
+PermanentCard >> playedBy: aRanking inGame: aJagerGame forPlayers: aRanking3 [ 
+	self subclassResponsibility .
 ]
