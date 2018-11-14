@@ -21,23 +21,17 @@ GameTest >> testAccelerationUsage [
 	game := gameBuilder build.
 	game playTurn.
 	player := game currentPlayer.
+	self assert: player position equals: 1.
 	player
 		addCard: 3;
-		playCard: Acceleration new inGame: game forPlayers: player;
-		addCard: 3;
-		playCard: Acceleration new inGame: game forPlayers: player;
-		addCard: 3;
-		playCard: Acceleration new inGame: game forPlayers: player;
-		addCard: 3;
-		playCard: Acceleration new inGame: game forPlayers: player;
-		addCard: 3;
-		playCard: Acceleration new inGame: game forPlayers: player;
-		addCard: 3;
-		playCard: Acceleration new inGame: game forPlayers: player;
+		playCard: Acceleration new inGame: game forPlayers: player.
+	game playTurn.
+	self assert: player position equals: 4.
+		player
 		addCard: 3;
 		playCard: Acceleration new inGame: game forPlayers: player.
-	1 to: 2 do: [ :i | game playTurn ].
-	self should: [ game playTurn ] raise: AssertionFailure description: 'Game is Finished'
+	game playTurn.
+	self assert: player position equals: 9.
 ]
 
 { #category : #tests }
@@ -66,30 +60,19 @@ GameTest >> testCancellationJoinRedoUsage [
 	game := gameBuilder build.
 	game playTurn.
 	player := game currentPlayer.
+	self assert: player position equals: 1.
 	player
 		addCard: 2;
 		playCard: Speed new inGame: game forPlayers: player;
 		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
 		playCard: Speed new inGame: game forPlayers: player.
-	1 to: 5 do: [  :i |
-		player 
+	player 
 		addCard: 4;
-		playCard: Cancellation new inGame: game forCard: Speed new].
+		playCard: Cancellation new inGame: game forCard: Speed new.
 	player addCard: 5.
 	player playCard: Redo new inGame: game forCard: Speed new. 
-	1 to: 4 do: [ :i | game playTurn ].
-	self
-		should: [ game playTurn ]
-		raise: AssertionFailure
-		description: 'Game is Finished'
+	game playTurn.
+	self assert: player position equals: 3.
 ]
 
 { #category : #tests }
@@ -99,28 +82,15 @@ GameTest >> testCancellationUsage [
 	game := gameBuilder build.
 	game playTurn.
 	player := game currentPlayer.
+	self assert: player position equals: 1.
 	player
 		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
 		playCard: Speed new inGame: game forPlayers: player.
-	1 to: 6 do: [  :i |
-		player 
+	player 
 		addCard: 4;
-		playCard: Cancellation new inGame: game forCard: Speed new].
-	1 to: 4 do: [ :i | game playTurn ].
-	self
-		should: [ game playTurn ]
-		raise: AssertionFailure
-		description: 'Game is Finished'
+		playCard: Cancellation new inGame: game forCard: Speed new.
+	game playTurn.
+	self assert: player position equals: 3.
 ]
 
 { #category : #tests }
@@ -222,28 +192,23 @@ GameTest >> testOverloadUsage [
 	| game gameBuilder player |
 	gameBuilder := self buildTemplateWith: 40.
 	game := gameBuilder build.
-	game playTurn.
 	player := game currentPlayer.
 	player
 		addCard: 1;
-		playCard: Overload new inGame: game forPlayers: player;
-		addCard: 1;
-		playCard: Overload new inGame: game forPlayers: player;
-		addCard: 1;
-		playCard: Overload new inGame: game forPlayers: player;
-		addCard: 1;
-		playCard: Overload new inGame: game forPlayers: player;
-		addCard: 1;
-		playCard: Overload new inGame: game forPlayers: player;
+		playCard: Overload new inGame: game forPlayers: player.
+	game playTurn.
+	self assert: player position equals: 0.
+	game playTurn.
+	self assert: player position equals: 0.
+	game playTurn.
+	self assert: player position equals: 1.
+	player 	
 		addCard: 1;
 		playCard: Overload new inGame: game forPlayers: player;
 		addCard: 1;
 		playCard: Overload new inGame: game forPlayers: player.
-	1 to: 500 do: [ :i | game playTurn ].
-	self
-		shouldnt:[ game playTurn ]
-		raise: AssertionFailure
-		description: 'Game is Finished'
+	game playTurn.
+	self assert: player position equals: 0.
 ]
 
 { #category : #tests }
@@ -295,28 +260,14 @@ GameTest >> testRedoUsageNoCardsPlayed [
 { #category : #tests }
 GameTest >> testRepeatUsage [
 	| game gameBuilder player |
-	gameBuilder := self buildTemplateWith: 40.
+	gameBuilder := self buildTemplateWith: 70.
 	game := gameBuilder build.
 	game playTurn.
 	player := game currentPlayer.
-	player
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player.
-	1 to: 6 do: [  :i |
-		player 
+	1 to: 10 do: [ :i | player
 		addCard: 6;
-		playCard: Repeat new inGame: game forPlayers: player].
-	1 to: 2 do: [ :i | game playTurn ].
+		playCard: Repeat new inGame: game forPlayers: player.].
+	game playTurn.
 	self
 		should: [ game playTurn ]
 		raise: AssertionFailure

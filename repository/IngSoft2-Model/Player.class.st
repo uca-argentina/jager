@@ -86,8 +86,8 @@ Player >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength withCards:
 "aPlayer advancePositionBy: self  rollDices withSpaces: (boardSpaces size) withCards: cards."
 		| spaces |
 	spaces := cards isEmptyOrNil
-		ifFalse: [ aNumberOfSpaces + (self cardModifications: aCollectionOfCards) ]
-		ifTrue: [ aNumberOfSpaces ].
+		ifTrue: [ aNumberOfSpaces ]
+		ifFalse: [ aNumberOfSpaces + (self cardModifications: aCollectionOfCards) ].
 	spaces negative
 		ifTrue: [ self recedePositionBy: spaces negated ]
 		ifFalse: [ position + spaces > aBoardLength

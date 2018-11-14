@@ -29,21 +29,6 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #accessing }
-Overload >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength withCards: aCollectionOfCards [
-	| spaces |
-	spaces := cards isEmptyOrNil
-		ifFalse: [ aNumberOfSpaces + (self cardModifications: aCollectionOfCards) ]
-		ifTrue: [ aNumberOfSpaces ].
-	spaces negative
-		ifTrue: [ self recedePositionBy: spaces negated ]
-		ifFalse: [ position + spaces > aBoardLength
-				ifTrue: [ position := position + spaces.
-					position := position - aBoardLength.
-					laps := laps + 1 ]
-				ifFalse: [ position := position + spaces ] ]
-]
-
 { #category : #playing }
 Overload >> cardModifierForPlayer: aPlayer [
 	^
