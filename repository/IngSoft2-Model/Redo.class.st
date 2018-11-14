@@ -27,6 +27,15 @@ Class {
 }
 
 { #category : #playing }
+Redo >> playedBy: aPlayer inGame: aJagerGame forCard: aCard [ 
+	 aPlayer discard: self.
+	 aJagerGame lastCard notNil
+		ifFalse: [ ^ self ].
+	 aPlayer addLastCard: (aJagerGame lastCard).
+	 (aJagerGame lastCard) playedBy: aPlayer inGame: aJagerGame forCard: aCard.
+]
+
+{ #category : #playing }
 Redo >> playedBy: aPlayer inGame: aJagerGame forPlayers: somePlayers [
 	aPlayer discard: self.
 	aJagerGame lastCard notNil
