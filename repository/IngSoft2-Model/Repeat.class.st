@@ -29,6 +29,7 @@ Class {
 { #category : #playing }
 Repeat >> playedBy: aPlayer inGame: aJagerGame forPlayers: somePlayers [ 
 	aPlayer discard: self.
+	aJagerGame saveCard: self. 
 	aJagerGame lastSpace notNil
 		ifFalse: [ ^ self ].
 	aJagerGame doSpaceEfect: somePlayers inSpace: aJagerGame lastSpace 

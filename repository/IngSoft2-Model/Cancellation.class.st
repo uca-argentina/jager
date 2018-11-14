@@ -29,5 +29,6 @@ Class {
 { #category : #playing }
 Cancellation >> playedBy: aPlayer inGame: aJagerGame forCard: aCard [ 
 	 aPlayer discard: self.
+	 aJagerGame saveCard: self. 
 	 aJagerGame discard: aCard.
 ]

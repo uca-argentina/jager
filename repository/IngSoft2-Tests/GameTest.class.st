@@ -60,6 +60,39 @@ GameTest >> testAtomicBomb [
 ]
 
 { #category : #tests }
+GameTest >> testCancellationJoinRedoUsage [
+	| game gameBuilder player |
+	gameBuilder := self buildTemplateWith: 40.
+	game := gameBuilder build.
+	game playTurn.
+	player := game currentPlayer.
+	player
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player;
+		addCard: 2;
+		playCard: Speed new inGame: game forPlayers: player.
+	1 to: 5 do: [  :i |
+		player 
+		addCard: 4;
+		playCard: Cancellation new inGame: game forCard: Speed new].
+	player addCard: 5.
+	player playCard: Redo new inGame: game forCard: Speed new. 
+	1 to: 4 do: [ :i | game playTurn ].
+	self
+		should: [ game playTurn ]
+		raise: AssertionFailure
+		description: 'Game is Finished'
+]
+
+{ #category : #tests }
 GameTest >> testCancellationUsage [
 	| game gameBuilder player |
 	gameBuilder := self buildTemplateWith: 40.
