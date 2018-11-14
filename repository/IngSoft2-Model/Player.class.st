@@ -25,7 +25,7 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #Ranking,
+	#name : #Player,
 	#superclass : #Object,
 	#instVars : [
 		'player',
@@ -37,12 +37,12 @@ Class {
 }
 
 { #category : #initialization }
-Ranking class >> PositionPlayer: aPlayer [ 
+Player class >> PositionPlayer: aPlayer [ 
 	^ self new initializeAtStart: aPlayer.
 ]
 
 { #category : #accessing }
-Ranking >> addCard [
+Player >> addCard [
 	| aNumber |
 	aNumber := (Random new) nextInt: 6.
 	
@@ -61,7 +61,7 @@ Ranking >> addCard [
 ]
 
 { #category : #accessing }
-Ranking >> addCard: aNumber [
+Player >> addCard: aNumber [
 	aNumber = 1
 	ifTrue: [ cards add: Overload new ].
 	aNumber = 2 
@@ -77,13 +77,14 @@ Ranking >> addCard: aNumber [
 ]
 
 { #category : #accessing }
-Ranking >> addLastCard: aCard [ 
+Player >> addLastCard: aCard [ 
 	cards add: aCard.
 ]
 
 { #category : #accessing }
-Ranking >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength withCards: aCollectionOfCards [
-	| spaces |
+Player >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength withCards: aCollectionOfCards [ 
+"aPlayer advancePositionBy: self  rollDices withSpaces: (boardSpaces size) withCards: cards."
+		| spaces |
 	spaces := cards isEmptyOrNil
 		ifFalse: [ aNumberOfSpaces + (self cardModifications: aCollectionOfCards) ]
 		ifTrue: [ aNumberOfSpaces ].
@@ -97,25 +98,37 @@ Ranking >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength withCards
 ]
 
 { #category : #playing }
-Ranking >> cardModifications: aCollectionOfCards [
+Player >> amountOfCards [
+	 ^ cards size.
+]
+
+{ #category : #playing }
+Player >> cardModifications: aCollectionOfCards [
 	^	(aCollectionOfCards sumNumbers: [:card | card cardModifierForPlayer: self]) .
 ]
 
 { #category : #playing }
-Ranking >> discard: aCard [ 
+Player >> discard: aCard [ 
 	| card |
-	card := cards detect:[:anOwnedCard | (anOwnedCard name) = (aCard name)].
+	 [card := cards detect:[:anOwnedCard | (anOwnedCard name) = (aCard name)].]
+	on: Error do:[AssertionFailure signal: 'player doesnt own card' ].
 	cards remove: card.
 	
+
+]
+
+{ #category : #playing }
+Player >> discardAllCards [ 
+	 cards := OrderedCollection new.
 ]
 
 { #category : #accessing }
-Ranking >> getBombed [
+Player >> getBombed [
 	position := 0.
 ]
 
 { #category : #initialization }
-Ranking >> initializeAtStart: aPlayer [ 
+Player >> initializeAtStart: aPlayer [ 
 	player := aPlayer.
 	position := 0.
 	laps := 0.
@@ -125,37 +138,37 @@ Ranking >> initializeAtStart: aPlayer [
 ]
 
 { #category : #accessing }
-Ranking >> laps [
+Player >> laps [
 	^laps.
 ]
 
 { #category : #accessing }
-Ranking >> name [
+Player >> name [
 	^ player.
 ]
 
 { #category : #accessing }
-Ranking >> playCard: aCard inGame: aJagerGame forCard: aCanceledCard [
+Player >> playCard: aCard inGame: aJagerGame forCard: aCanceledCard [
 	aCard playedBy: self inGame: aJagerGame forCard: aCanceledCard.
 ]
 
 { #category : #accessing }
-Ranking >> playCard: aCard inGame: aGame forPlayers: somePlayers [
+Player >> playCard: aCard inGame: aGame forPlayers: somePlayers [
 	aCard playedBy: self inGame: aGame forPlayers: somePlayers.
 ]
 
 { #category : #accessing }
-Ranking >> player [
+Player >> player [
 	^ player
 ]
 
 { #category : #accessing }
-Ranking >> position [
+Player >> position [
 	^position.
 ]
 
 { #category : #accessing }
-Ranking >> recedeLaps: aNumberOfSpaces [
+Player >> recedeLaps: aNumberOfSpaces [
 	| temporarySpaces |
 	laps = 0
 		ifTrue: [ position := 0 ]
@@ -165,7 +178,7 @@ Ranking >> recedeLaps: aNumberOfSpaces [
 ]
 
 { #category : #accessing }
-Ranking >> recedePositionBy: aNumberOfSpaces [
+Player >> recedePositionBy: aNumberOfSpaces [
 	(position - aNumberOfSpaces) negative
 		ifTrue:
 			[ self recedeLaps: aNumberOfSpaces ]

@@ -358,35 +358,6 @@ GameTest >> testSpeedUp [
 ]
 
 { #category : #tests }
-GameTest >> testSpeedUsage [
-	| game gameBuilder player |
-	gameBuilder := self buildTemplateWith: 40.
-	game := gameBuilder build.
-	game playTurn.
-	player := game currentPlayer.
-	player
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player.
-	1 to: 2 do: [ :i | game playTurn ].
-	self
-		should: [ game playTurn ]
-		raise: AssertionFailure
-		description: 'Game is Finished'
-]
-
-{ #category : #tests }
 GameTest >> testWormhole [
 	| game gameBuilder |
 	gameBuilder := self buildTemplateWith: 60.
