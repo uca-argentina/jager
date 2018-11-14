@@ -88,6 +88,12 @@ JagerGame >> find: aPlayer [
 				detect: [ :aRanking | aRanking player = aPlayer ].
 ]
 
+{ #category : #play }
+JagerGame >> getSpace: aPlayer [
+ ^boardSpaces at:(aPlayer position)
+	 
+]
+
 { #category : #initialization }
 JagerGame >> initializePlayedBy: aPlayerSet throwing: aDiceSet on: aBoard withLaps: someLaps [
 	players := OrderedCollection new.
@@ -106,7 +112,7 @@ JagerGame >> initializePlayedBy: aPlayerSet throwing: aDiceSet on: aBoard withLa
 { #category : #initialization }
 JagerGame >> initializePlayerPositions [
 
-	playerPositions addAll: (players collect: [ :player | ( Ranking PositionPlayer: player ) ]).
+	playerPositions addAll: (players collect: [ :player | ( Player PositionPlayer: player ) ]).
 
 ]
 
@@ -125,7 +131,7 @@ JagerGame >> playTurn [
 	| aPlayer |
 	status playTurn.
 	aPlayer := playerPositions detect:[:aRanking | aRanking player =  playingTurn current].
-	aPlayer advancePositionBy: self rollDices withSpaces: (boardSpaces size) withCards: cards.
+	aPlayer advancePositionBy: self  rollDices withSpaces: (boardSpaces size) withCards: cards.
 	(aPlayer position = 0)
 	ifFalse: [self saveSpace: (boardSpaces at:(aPlayer position)).
 	self doSpaceEfect: (self find: (aPlayer player)) inSpace: (boardSpaces at:(aPlayer position))].
