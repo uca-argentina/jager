@@ -23,6 +23,7 @@ GameTest >> testAccelerationUsage [
 	player := game currentPlayer.
 	self assert: player position equals: 1.
 	player
+
 		addCard: Acceleration new;
 		playCard: Acceleration new inGame: game forPlayers: player.
 	game playTurn.
@@ -70,6 +71,7 @@ GameTest >> testCancellationJoinRedoUsage [
 		addCard: Cancellation new;
 		playCard: Cancellation new inGame: game forCard: Speed new.
 	player addCard: Redo new.
+
 	player playCard: Redo new inGame: game forCard: Speed new. 
 	game playTurn.
 	self assert: player position equals: 3.
