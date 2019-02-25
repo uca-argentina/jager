@@ -28,14 +28,10 @@ Class {
 
 { #category : #playing }
 Acceleration >> cardModifierForPlayer: anObject [
-	^ 1 asInteger.
+	^ 1.
 ]
 
 { #category : #playing }
-Acceleration >> playedBy: aPlayer inGame: aJagerGame forPlayers: somePlayers [
-	aJagerGame currentPlayer = aPlayer
-	ifTrue:[ aJagerGame saveCard: self.
-			aPlayer discard: self.
-			aJagerGame addPermanentCard: self . ]
-	ifFalse: [ AssertionFailure signal: 'Playing out of turn' ]
+Acceleration >> playedBy: aPlayer inGame: aJagerGame forPlayer: anotherPlayer [
+	super playedBy: aPlayer inGame: aJagerGame forPlayer: anotherPlayer  
 ]

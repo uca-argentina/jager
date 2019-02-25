@@ -29,21 +29,6 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #accessing }
-Overload >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength withCards: aCollectionOfCards [
-	| spaces |
-	spaces := cards isEmptyOrNil
-		ifFalse: [ aNumberOfSpaces + (self cardModifications: aCollectionOfCards) ]
-		ifTrue: [ aNumberOfSpaces ].
-	spaces negative
-		ifTrue: [ self recedePositionBy: spaces negated ]
-		ifFalse: [ position + spaces > aBoardLength
-				ifTrue: [ position := position + spaces.
-					position := position - aBoardLength.
-					laps := laps + 1 ]
-				ifFalse: [ position := position + spaces ] ]
-]
-
 { #category : #playing }
 Overload >> cardModifierForPlayer: aPlayer [
 	^
@@ -53,11 +38,7 @@ Overload >> cardModifierForPlayer: aPlayer [
 ]
 
 { #category : #playing }
-Overload >> playedBy: aPlayer inGame: aJagerGame forPlayers: somePlayers [
-	player := somePlayers.
-	aJagerGame currentPlayer = aPlayer
-	ifTrue:[ aJagerGame saveCard: self.
-			aPlayer discard: self.	
-			aJagerGame addPermanentCard: self . ]
-	ifFalse: [ AssertionFailure signal: 'Playing out of turn' ]
+Overload >> playedBy: aPlayer inGame: aJagerGame forPlayer: anotherPlayer [
+	player := aPlayer.
+	super playedBy: aPlayer inGame: aJagerGame forPlayer: anotherPlayer  
 ]

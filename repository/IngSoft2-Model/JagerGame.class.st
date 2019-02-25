@@ -39,8 +39,11 @@ Class {
 		'status',
 		'laps',
 		'lastSpace',
-		'cards',
+		'playedCards',
 		'lastCard'
+	],
+	#classVars : [
+		'PlayerCards'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -56,7 +59,7 @@ JagerGame class >> initializePlayedBy: aPlayerSet throwing: aDiceSet on: aBoard 
 
 { #category : #accessing }
 JagerGame >> addPermanentCard: aPermanentCard [ 
-	cards add:aPermanentCard.
+	playedCards add:aPermanentCard.
 ]
 
 { #category : #accessing }
@@ -64,31 +67,25 @@ JagerGame >> changeStatusToFinished [
 	status := FinishedStatus new.
 ]
 
-{ #category : #playing }
+{ #category : #accessing }
 JagerGame >> currentPlayer [
 	^ playerPositions detect:[:aRanking | aRanking player =  playingTurn current].
 ]
 
 { #category : #playing }
-JagerGame >> discard: aCard [ 
+JagerGame >> discard: aCard [
 	| card |
-	card := cards detect:[:anOwnedCard | (anOwnedCard name) = (aCard name)].
-	cards remove: card.
+	card := playedCards detect: [ :aPlayedCard | aPlayedCard name = aCard name ].
+	playedCards remove: card
 ]
 
-{ #category : #play }
-JagerGame >> doSpaceEfect: aPlayer inSpace: aSpace [
+{ #category : #playing }
+JagerGame >> doSpaceEfectOn: aPlayer inSpace: aSpace [
 	aSpace doSpaceActionOn: playerPositions withCurrentPlayer: aPlayer withSpaces: (boardSpaces size) andLaps: laps.
 
 ]
 
-{ #category : #accessing }
-JagerGame >> find: aPlayer [
-	^ playerPositions
-				detect: [ :aRanking | aRanking player = aPlayer ].
-]
-
-{ #category : #play }
+{ #category : #playing }
 JagerGame >> getSpace: aPlayer [
  ^boardSpaces at:(aPlayer position)
 	 
@@ -100,20 +97,19 @@ JagerGame >> initializePlayedBy: aPlayerSet throwing: aDiceSet on: aBoard withLa
 	playingTurn := CircularIterator iteratingOver: aPlayerSet.
 	playerPositions := OrderedCollection new.
 	dices := OrderedCollection new.
-	cards := OrderedCollection new.
+	playedCards := OrderedCollection new.
 	status := ActiveStatus new.
 	players := aPlayerSet.
 	dices := aDiceSet.
 	boardSpaces := aBoard.
 	laps:= someLaps.
+	lastSpace := Normal new.
 	self initializePlayerPositions.
 ]
 
 { #category : #initialization }
 JagerGame >> initializePlayerPositions [
-
-	playerPositions addAll: (players collect: [ :player | ( Player PositionPlayer: player ) ]).
-
+	playerPositions := (players collect: [ :player | Player initializeAndPositionPlayer: player ]) asOrderedCollection
 ]
 
 { #category : #accessing }
@@ -126,15 +122,15 @@ JagerGame >> lastSpace [
 	^ lastSpace
 ]
 
-{ #category : #play }
+{ #category : #playing }
 JagerGame >> playTurn [
 	| aPlayer |
 	status playTurn.
 	aPlayer := playerPositions detect:[:aRanking | aRanking player =  playingTurn current].
-	aPlayer advancePositionBy: self  rollDices withSpaces: (boardSpaces size) withCards: cards.
+	aPlayer advancePositionBy: self  rollDices withSpaces: (boardSpaces size) withCards: playedCards.
 	(aPlayer position = 0)
 	ifFalse: [self saveSpace: (boardSpaces at:(aPlayer position)).
-	self doSpaceEfect: (self find: (aPlayer player)) inSpace: (boardSpaces at:(aPlayer position))].
+	self doSpaceEfectOn: (self rankingOf: (aPlayer player)) inSpace: (boardSpaces at:(aPlayer position))].
 	playingTurn next.
 	self rankPlayers: laps.
 	 
@@ -142,10 +138,7 @@ JagerGame >> playTurn [
 
 { #category : #accessing }
 JagerGame >> playerNames [
-	| playerNames |
-	playerNames := OrderedCollection new.
-	playerNames addAll: (players collect: [:player | player name]).
-	^playerNames.
+	^ players collect: [ :player | player name ]
 
 ]
 
@@ -154,15 +147,20 @@ JagerGame >> players [
 	^ players
 ]
 
-{ #category : #play }
+{ #category : #playing }
 JagerGame >> rankPlayers: someLaps [
 
 	playerPositions sort: #laps descending, #position descending, #name ascending.
 	status isFinished: playerPositions length: (someLaps) in: self.
-	"As sorted collection:"
 ]
 
-{ #category : #play }
+{ #category : #accessing }
+JagerGame >> rankingOf: aPlayer [
+	^ playerPositions
+				detect: [ :aRanking | aRanking player = aPlayer ].
+]
+
+{ #category : #playing }
 JagerGame >> rollDices [
 	^dices sumNumbers: [:dice | dice roll ].
 ]
@@ -177,7 +175,7 @@ JagerGame >> saveSpace: aSpace [
 	lastSpace := aSpace.
 ]
 
-{ #category : #play }
+{ #category : #accessing }
 JagerGame >> topThree [
 	^	 'First is: ', 
 		(playerPositions at: 1) name,
@@ -187,7 +185,7 @@ JagerGame >> topThree [
 		(playerPositions at: 3) name.
 ]
 
-{ #category : #play }
+{ #category : #accessing }
 JagerGame >> winner [
 	status checkFinalized.
 	 ^   (playerPositions  at: 1) name.

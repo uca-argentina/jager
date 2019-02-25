@@ -37,43 +37,26 @@ Class {
 }
 
 { #category : #initialization }
-Player class >> PositionPlayer: aPlayer [ 
-	^ self new initializeAtStart: aPlayer.
+Player class >> initializeAndPositionPlayer: aName [
+	^ self new initializeAtStart: aName.
 ]
 
 { #category : #accessing }
 Player >> addCard [
-	| aNumber |
-	aNumber := (Random new) nextInt: 6.
-	
-	aNumber = 1 
-	ifTrue: [ cards add: Overload new ].
-	aNumber = 2 
-	ifTrue: [ cards add: Speed new ].
-	aNumber = 3
-	ifTrue: [ cards add: Acceleration new ].
-	aNumber = 4
-	ifTrue: [ cards add: Cancellation new ].
-	aNumber = 5
-	ifTrue: [ cards add: Redo new ].
-	aNumber = 6 
-	ifTrue: [ cards add: Repeat new ].
+	self addCard: {
+		Overload new.
+		Speed new.
+		Acceleration new.
+		Cancellation new.
+		Redo new.
+		Repeat new
+	} atRandom.
+
 ]
 
 { #category : #accessing }
-Player >> addCard: aNumber [
-	aNumber = 1
-	ifTrue: [ cards add: Overload new ].
-	aNumber = 2 
-	ifTrue: [ cards add: Speed new ].
-	aNumber = 3
-	ifTrue: [ cards add: Acceleration new ].
-	aNumber = 4
-	ifTrue: [ cards add: Cancellation new ].
-	aNumber = 5
-	ifTrue: [ cards add: Redo new ].
-	aNumber = 6 
-	ifTrue: [ cards add: Repeat new ].
+Player >> addCard: aCard [
+	cards add: aCard
 ]
 
 { #category : #accessing }
@@ -86,8 +69,8 @@ Player >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength withCards:
 "aPlayer advancePositionBy: self  rollDices withSpaces: (boardSpaces size) withCards: cards."
 		| spaces |
 	spaces := cards isEmptyOrNil
-		ifFalse: [ aNumberOfSpaces + (self cardModifications: aCollectionOfCards) ]
-		ifTrue: [ aNumberOfSpaces ].
+		ifTrue: [ aNumberOfSpaces ]
+		ifFalse: [ aNumberOfSpaces + (self cardModifications: aCollectionOfCards) ].
 	spaces negative
 		ifTrue: [ self recedePositionBy: spaces negated ]
 		ifFalse: [ position + spaces > aBoardLength
@@ -154,7 +137,7 @@ Player >> playCard: aCard inGame: aJagerGame forCard: aCanceledCard [
 
 { #category : #accessing }
 Player >> playCard: aCard inGame: aGame forPlayers: somePlayers [
-	aCard playedBy: self inGame: aGame forPlayers: somePlayers.
+	aCard playedBy: self inGame: aGame forPlayer: somePlayers.
 ]
 
 { #category : #accessing }
@@ -181,6 +164,6 @@ Player >> recedeLaps: aNumberOfSpaces [
 Player >> recedePositionBy: aNumberOfSpaces [
 	(position - aNumberOfSpaces) negative
 		ifTrue:
-			[ self recedeLaps: aNumberOfSpaces ]
+			[ self recedeLaps: aNumberOfSpaces.]
 		ifFalse: [ position := position - aNumberOfSpaces ]
 ]

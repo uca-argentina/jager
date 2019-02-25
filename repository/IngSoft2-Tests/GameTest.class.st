@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #templates }
 GameTest >> buildTemplateWith: aNumber [
 	| gameBuilder |
 	gameBuilder := JagerGameBuilder new.
@@ -17,34 +17,28 @@ GameTest >> buildTemplateWith: aNumber [
 { #category : #tests }
 GameTest >> testAccelerationUsage [
 	| game gameBuilder player |
-	gameBuilder := self buildTemplateWith: 40.
+	gameBuilder := self buildTemplateWith: 1.
 	game := gameBuilder build.
 	game playTurn.
 	player := game currentPlayer.
+	self assert: player position equals: 1.
 	player
-		addCard: 3;
-		playCard: Acceleration new inGame: game forPlayers: player;
-		addCard: 3;
-		playCard: Acceleration new inGame: game forPlayers: player;
-		addCard: 3;
-		playCard: Acceleration new inGame: game forPlayers: player;
-		addCard: 3;
-		playCard: Acceleration new inGame: game forPlayers: player;
-		addCard: 3;
-		playCard: Acceleration new inGame: game forPlayers: player;
-		addCard: 3;
-		playCard: Acceleration new inGame: game forPlayers: player;
-		addCard: 3;
+		addCard: Acceleration new;
 		playCard: Acceleration new inGame: game forPlayers: player.
-	1 to: 2 do: [ :i | game playTurn ].
-	self should: [ game playTurn ] raise: AssertionFailure description: 'Game is Finished'
+	game playTurn.
+	self assert: player position equals: 4.
+		player
+		addCard: Acceleration new;
+		playCard: Acceleration new inGame: game forPlayers: player.
+	game playTurn.
+	self assert: player position equals: 9.
 ]
 
 { #category : #tests }
 GameTest >> testAtomicBomb [
 	| game gameBuilder |
 	gameBuilder := JagerGameBuilder new. 
-	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:99. 
+	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:6. 
 	gameBuilder addPlayerNamed: 'Santiago'.
 
 	gameBuilder addSequencedDiceWithSides: 6.
@@ -62,72 +56,48 @@ GameTest >> testAtomicBomb [
 { #category : #tests }
 GameTest >> testCancellationJoinRedoUsage [
 	| game gameBuilder player |
-	gameBuilder := self buildTemplateWith: 40.
+	gameBuilder := self buildTemplateWith: 1.
 	game := gameBuilder build.
 	game playTurn.
 	player := game currentPlayer.
+	self assert: player position equals: 1.
 	player
-		addCard: 2;
+		addCard: Speed new;
 		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
+		addCard: Speed new;
 		playCard: Speed new inGame: game forPlayers: player.
-	1 to: 5 do: [  :i |
-		player 
-		addCard: 4;
-		playCard: Cancellation new inGame: game forCard: Speed new].
-	player addCard: 5.
+	player 
+		addCard: Cancellation new;
+		playCard: Cancellation new inGame: game forCard: Speed new.
+	player addCard: Redo new.
 	player playCard: Redo new inGame: game forCard: Speed new. 
-	1 to: 4 do: [ :i | game playTurn ].
-	self
-		should: [ game playTurn ]
-		raise: AssertionFailure
-		description: 'Game is Finished'
+	game playTurn.
+	self assert: player position equals: 3.
 ]
 
 { #category : #tests }
 GameTest >> testCancellationUsage [
 	| game gameBuilder player |
-	gameBuilder := self buildTemplateWith: 40.
+	gameBuilder := self buildTemplateWith: 1.
 	game := gameBuilder build.
 	game playTurn.
 	player := game currentPlayer.
+	self assert: player position equals: 1.
 	player
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
+		addCard: Speed new;
 		playCard: Speed new inGame: game forPlayers: player.
-	1 to: 6 do: [  :i |
-		player 
-		addCard: 4;
-		playCard: Cancellation new inGame: game forCard: Speed new].
-	1 to: 4 do: [ :i | game playTurn ].
-	self
-		should: [ game playTurn ]
-		raise: AssertionFailure
-		description: 'Game is Finished'
+	player 
+		addCard: Cancellation new;
+		playCard: Cancellation new inGame: game forCard: Speed new.
+	game playTurn.
+	self assert: player position equals: 3.
 ]
 
 { #category : #tests }
 GameTest >> testCantPlayFinishedGame [
 	| game gameBuilder |
 	gameBuilder := JagerGameBuilder new. 
-	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:20. 
+	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:1. 
 	gameBuilder addPlayerNamed: 'Santiago'.
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
@@ -142,7 +112,7 @@ GameTest >> testCantPlayFinishedGame [
 { #category : #tests }
 GameTest >> testCardGiver [
 	| game gameBuilder |
-	gameBuilder := self buildTemplateWith: 40.
+	gameBuilder := self buildTemplateWith: 2.
 	game := gameBuilder build.
 	game playTurn.
 	1 to: 4 do: [:i | game playTurn. ].
@@ -156,7 +126,7 @@ GameTest >> testCardGiver [
 GameTest >> testGetTop3 [
 	| game gameBuilder |
 	gameBuilder := JagerGameBuilder new. 
-	gameBuilder addBoardWithSpaces: 50 withLaps: 1 fixedWith:20. 
+	gameBuilder addBoardWithSpaces: 50 withLaps: 1 fixedWith:1. 
 	gameBuilder addPlayerNamed: 'Santiago'.gameBuilder addPlayerNamed: 'Santiago2'.
 	gameBuilder addPlayerNamed: 'Santiago3'.gameBuilder addPlayerNamed: 'Santiago4'.
 	gameBuilder addSequencedDiceWithSides: 4.
@@ -171,7 +141,7 @@ GameTest >> testLaps [
 	| game gameBuilder |
 	gameBuilder := JagerGameBuilder new. 
 
-	gameBuilder addBoardWithSpaces: 10 withLaps: 2 fixedWith:20. 
+	gameBuilder addBoardWithSpaces: 10 withLaps: 2 fixedWith:1. 
 	gameBuilder addPlayerNamed: 'Santiago'.
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
@@ -184,7 +154,7 @@ GameTest >> testLaps [
 GameTest >> testMoonwalk [
 	| game gameBuilder |
 	gameBuilder := JagerGameBuilder new. 
-	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:95. 
+	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:5. 
 	gameBuilder addPlayerNamed: 'Santiago'.
 	gameBuilder addSequencedDiceWithSides: 6.
 	gameBuilder addPlayerNamed: 'Nacho'.
@@ -199,7 +169,7 @@ GameTest >> testMoonwalk [
 GameTest >> testNormalGame [
 	| game gameBuilder|
 	gameBuilder := JagerGameBuilder new.
-	gameBuilder addBoardWithSpaces: 100 withLaps: 1 fixedWith:20. 
+	gameBuilder addBoardWithSpaces: 100 withLaps: 1 fixedWith:1. 
 	gameBuilder addPlayerNamed: 'Santiago'.
 	gameBuilder addPlayerNamed: 'Nacho'.
 	gameBuilder addPlayerNamed: 'Albert'.
@@ -220,53 +190,48 @@ GameTest >> testNormalGame [
 { #category : #tests }
 GameTest >> testOverloadUsage [
 	| game gameBuilder player |
-	gameBuilder := self buildTemplateWith: 40.
+	gameBuilder := self buildTemplateWith: 1.
 	game := gameBuilder build.
-	game playTurn.
 	player := game currentPlayer.
 	player
-		addCard: 1;
-		playCard: Overload new inGame: game forPlayers: player;
-		addCard: 1;
-		playCard: Overload new inGame: game forPlayers: player;
-		addCard: 1;
-		playCard: Overload new inGame: game forPlayers: player;
-		addCard: 1;
-		playCard: Overload new inGame: game forPlayers: player;
-		addCard: 1;
-		playCard: Overload new inGame: game forPlayers: player;
-		addCard: 1;
-		playCard: Overload new inGame: game forPlayers: player;
-		addCard: 1;
+		addCard: Overload new;
 		playCard: Overload new inGame: game forPlayers: player.
-	1 to: 500 do: [ :i | game playTurn ].
-	self
-		shouldnt:[ game playTurn ]
-		raise: AssertionFailure
-		description: 'Game is Finished'
+	game playTurn.
+	self assert: player position equals: 0.
+	game playTurn.
+	self assert: player position equals: 0.
+	game playTurn.
+	self assert: player position equals: 1.
+	player 	
+		addCard: Overload new;
+		playCard: Overload new inGame: game forPlayers: player;
+		addCard: Overload new;
+		playCard: Overload new inGame: game forPlayers: player.
+	game playTurn.
+	self assert: player position equals: 0.
 ]
 
 { #category : #tests }
 GameTest >> testRedoUsage [
 	| game gameBuilder player |
-	gameBuilder := self buildTemplateWith: 40.
+	gameBuilder := self buildTemplateWith: 1.
 	game := gameBuilder build.
 	game playTurn.
 	player := game currentPlayer.
 	player
-		addCard: 2;
+		addCard: Speed new;
 		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
+		addCard: Speed new;
 		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
+		addCard: Speed new;
 		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
+		addCard: Speed new;
 		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
+		addCard: Speed new;
 		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
+		addCard: Speed new;
 		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 5;
+		addCard: Redo new;
 		playCard: Redo new inGame: game forPlayers: player.
 	1 to: 2 do: [ :i | game playTurn ].
 	self
@@ -278,12 +243,12 @@ GameTest >> testRedoUsage [
 { #category : #tests }
 GameTest >> testRedoUsageNoCardsPlayed [
 	| game gameBuilder player |
-	gameBuilder := self buildTemplateWith: 40.
+	gameBuilder := self buildTemplateWith: 1.
 	game := gameBuilder build.
 	game playTurn.
 	player := game currentPlayer.
 	player
-		addCard: 5;
+		addCard: Redo new;
 		playCard: Redo new inGame: game forPlayers: player.
 	1 to: 4 do: [ :i | game playTurn ].
 	self
@@ -295,28 +260,14 @@ GameTest >> testRedoUsageNoCardsPlayed [
 { #category : #tests }
 GameTest >> testRepeatUsage [
 	| game gameBuilder player |
-	gameBuilder := self buildTemplateWith: 40.
+	gameBuilder := self buildTemplateWith: 4.
 	game := gameBuilder build.
 	game playTurn.
 	player := game currentPlayer.
-	player
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player;
-		addCard: 2;
-		playCard: Speed new inGame: game forPlayers: player.
-	1 to: 6 do: [  :i |
-		player 
-		addCard: 6;
-		playCard: Repeat new inGame: game forPlayers: player].
-	1 to: 2 do: [ :i | game playTurn ].
+	1 to: 10 do: [ :i | player
+		addCard: Repeat new;
+		playCard: Repeat new inGame: game forPlayers: player.].
+	game playTurn.
 	self
 		should: [ game playTurn ]
 		raise: AssertionFailure
@@ -327,7 +278,7 @@ GameTest >> testRepeatUsage [
 GameTest >> testShortNomalGame [
 	| game gameBuilder |
 	gameBuilder := JagerGameBuilder new.
-	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:20. 
+	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:1. 
 	gameBuilder addPlayerNamed: 'Santiago'.
 	gameBuilder addPlayerNamed: 'Nacho'.
 	gameBuilder addPlayerNamed: 'Juan'.
@@ -347,7 +298,7 @@ GameTest >> testShortNomalGame [
 { #category : #tests }
 GameTest >> testSpeedUp [
 	| game gameBuilder |
-	gameBuilder := self buildTemplateWith: 70.
+	gameBuilder := self buildTemplateWith: 4.
 	game := gameBuilder build.
 	game playTurn.
 	game playTurn.
@@ -360,7 +311,7 @@ GameTest >> testSpeedUp [
 { #category : #tests }
 GameTest >> testWormhole [
 	| game gameBuilder |
-	gameBuilder := self buildTemplateWith: 60.
+	gameBuilder := self buildTemplateWith: 3.
 	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
 	1 to: 5 do: [:i | game playTurn. ].

@@ -32,6 +32,10 @@ PermanentCard >> cardModifierForPlayer: anObject [
 ]
 
 { #category : #playing }
-PermanentCard >> playedBy: aRanking inGame: aJagerGame forPlayers: aRanking3 [ 
-	self subclassResponsibility .
+PermanentCard >> playedBy: aPlayer inGame: aJagerGame forPlayer: anotherPlayer [
+	aJagerGame currentPlayer = aPlayer
+	ifTrue:[ aJagerGame saveCard: self.
+			aPlayer discard: self.	
+			aJagerGame addPermanentCard: self . ]
+	ifFalse: [ AssertionFailure signal: 'Playing out of turn' ]
 ]
