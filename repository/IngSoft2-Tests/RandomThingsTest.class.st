@@ -45,7 +45,7 @@ RandomThingsTest >> testPlayCardNotInHand [
 	player := game currentPlayer.
 	player 
 		discardAllCards;
-		addCard: 2;
+		addCard: (Speed new);
 		 playCard: Speed new inGame: game forPlayers: player.
 	self should:[ player playCard: Speed new inGame: game forPlayers: player]raise: AssertionFailure description: 'player doesnt own card'.
 

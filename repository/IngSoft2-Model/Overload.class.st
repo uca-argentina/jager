@@ -38,11 +38,7 @@ Overload >> cardModifierForPlayer: aPlayer [
 ]
 
 { #category : #playing }
-Overload >> playedBy: aPlayer inGame: aJagerGame forPlayers: somePlayers [
-	player := somePlayers.
-	aJagerGame currentPlayer = aPlayer
-	ifTrue:[ aJagerGame saveCard: self.
-			aPlayer discard: self.	
-			aJagerGame addPermanentCard: self . ]
-	ifFalse: [ AssertionFailure signal: 'Playing out of turn' ]
+Overload >> playedBy: aPlayer inGame: aJagerGame forPlayer: anotherPlayer [
+	player := aPlayer.
+	super playedBy: aPlayer inGame: aJagerGame forPlayer: anotherPlayer  
 ]

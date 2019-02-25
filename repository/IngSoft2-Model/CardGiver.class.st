@@ -28,5 +28,5 @@ Class {
 
 { #category : #accessing }
 CardGiver >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: someSpaces andLaps: aNumber [ 
-	aPlayer addCard: 0.
+	aPlayer addCard.
 ]

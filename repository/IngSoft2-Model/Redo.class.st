@@ -36,7 +36,7 @@ Redo >> playedBy: aPlayer inGame: aJagerGame forCard: aCard [
 ]
 
 { #category : #playing }
-Redo >> playedBy: aPlayer inGame: aJagerGame forPlayers: somePlayers [
+Redo >> playedBy: aPlayer inGame: aJagerGame forPlayer: somePlayers [
 	aPlayer discard: self.
 	aJagerGame lastCard notNil
 		ifFalse: [ ^ self ].
@@ -44,5 +44,5 @@ Redo >> playedBy: aPlayer inGame: aJagerGame forPlayers: somePlayers [
 	aJagerGame lastCard
 		playedBy: aPlayer
 		inGame: aJagerGame
-		forPlayers: somePlayers
+		forPlayer: somePlayers
 ]

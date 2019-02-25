@@ -55,20 +55,18 @@ Space class >> createSpace [
 ]
 
 { #category : #initialization }
-Space class >> createSpaceFixed: aFixation [
-	aFixation < 38
+Space class >> createSpaceFixed: aNumber [
+	aNumber = 1
 	ifTrue:[^Normal new].
-	aFixation < 48
+	aNumber = 2
 	ifTrue:[^CardGiver new].
-	aFixation < 68
+	aNumber = 3
 	ifTrue:[^WormHole new].
-	aFixation < 88
+	aNumber = 4
 	ifTrue:[^SpeedUp new].
-	aFixation < 98
-
+	aNumber = 5
 	ifTrue:[^MoonWalkFixed new].
-
-	aFixation < 100
+	aNumber = 6
 	ifTrue:[^AtomicBomb new].
 	
 	
