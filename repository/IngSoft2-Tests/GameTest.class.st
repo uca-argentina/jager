@@ -49,8 +49,8 @@ GameTest >> testAtomicBomb [
 	game playTurn.
 
 	game playTurn.	
-	1 to: 3 do: [:i |game playTurn].
-	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
+	1 to: 2 do: [:i |game playTurn].
+	self should:[ game winner ]raise: AssertionFailure description: 'Game is not Finished'.
 ]
 
 { #category : #tests }
@@ -152,6 +152,7 @@ GameTest >> testGetTop3 [
 	game := gameBuilder build.
 	1 to: 52 do: [:i | game playTurn. ].
 	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
+	game rankPlayers: 1.
 	self assert: game topThree equals: 'First is: Santiago4. Second is: Santiago3. Third is: Santiago2'.
 ]
 

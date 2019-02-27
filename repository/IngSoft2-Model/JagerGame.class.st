@@ -85,12 +85,6 @@ JagerGame >> doSpaceEfectOn: aPlayer inSpace: aSpace [
 
 ]
 
-{ #category : #playing }
-JagerGame >> getSpace: aPlayer [
- ^boardSpaces at:(aPlayer position)
-	 
-]
-
 { #category : #initialization }
 JagerGame >> initializePlayedBy: aPlayerSet throwing: aDiceSet on: aBoard withLaps: someLaps [
 	players := OrderedCollection new.
@@ -158,17 +152,6 @@ JagerGame >> playTurn [
 	playingTurn next.
 	self rankPlayers: laps.
 	 
-]
-
-{ #category : #accessing }
-JagerGame >> playerNames [
-	^ players collect: [ :player | player name ]
-
-]
-
-{ #category : #accessing }
-JagerGame >> players [
-	^ players
 ]
 
 { #category : #playing }
