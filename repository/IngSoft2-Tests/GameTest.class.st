@@ -123,6 +123,25 @@ GameTest >> testCardGiver [
 ]
 
 { #category : #tests }
+GameTest >> testDoubleUsage [
+	| game gameBuilder player |
+	gameBuilder := JagerGameBuilder new. 
+	gameBuilder addBoardWithSpaces: 50 withLaps: 1 fixedWith:1. 
+	gameBuilder addPlayerNamed: 'Santiago'.gameBuilder addPlayerNamed: 'Santiago2'.
+	gameBuilder addPlayerNamed: 'Santiago3'.gameBuilder addPlayerNamed: 'Santiago4'.
+	gameBuilder addSequencedDiceWithSides: 4.
+	game := gameBuilder build.
+	player := game currentPlayer.
+	player addCard: Double new.
+	player playCard: Double new inGame: game forPlayers: player. 
+	self assert: (game currentPlayer) name equals: 'Santiago'
+	
+	
+	
+	
+]
+
+{ #category : #tests }
 GameTest >> testGetTop3 [
 	| game gameBuilder |
 	gameBuilder := JagerGameBuilder new. 
@@ -157,12 +176,24 @@ GameTest >> testMoonwalk [
 	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:5. 
 	gameBuilder addPlayerNamed: 'Santiago'.
 	gameBuilder addSequencedDiceWithSides: 6.
-	gameBuilder addPlayerNamed: 'Nacho'.
-	gameBuilder addSequencedDiceWithSides: 6.
 	game := gameBuilder build.
 	game playTurn.
 	1 to: 4 do: [:i |game playTurn].
 	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
+]
+
+{ #category : #tests }
+GameTest >> testMoonwalkRand [
+	| game gameBuilder player |
+	gameBuilder := JagerGameBuilder new. 
+	gameBuilder addBoardWithSpaces: 10 withLaps: 1 fixedWith:7. 
+	gameBuilder addPlayerNamed: 'Santiago'.
+	gameBuilder addSequencedDiceWithSides: 6.
+	game := gameBuilder build.
+	game playTurn.
+	player := game currentPlayer.
+	self assert: player player equals: 'Santiago'.
+	self assert: player position equals: 0.
 ]
 
 { #category : #tests }
@@ -275,6 +306,26 @@ GameTest >> testRepeatUsage [
 ]
 
 { #category : #tests }
+GameTest >> testReverseUsage [
+	| game gameBuilder player |
+	gameBuilder := JagerGameBuilder new. 
+	gameBuilder addBoardWithSpaces: 50 withLaps: 1 fixedWith:1. 
+	gameBuilder addPlayerNamed: 'Santiago'.gameBuilder addPlayerNamed: 'Santiago2'.
+	gameBuilder addPlayerNamed: 'Santiago3'.gameBuilder addPlayerNamed: 'Santiago4'.
+	gameBuilder addSequencedDiceWithSides: 4.
+	game := gameBuilder build.
+	player := game currentPlayer.
+	player addCard: Reverse new.
+	player playCard: Reverse new inGame: game forPlayers: player. 
+	game playTurn.
+	self assert: (game currentPlayer) name equals: 'Santiago4'
+	
+	
+	
+	
+]
+
+{ #category : #tests }
 GameTest >> testShortNomalGame [
 	| game gameBuilder |
 	gameBuilder := JagerGameBuilder new.
@@ -292,6 +343,25 @@ GameTest >> testShortNomalGame [
 	1 to: 2 do: [:i |game playTurn].
 	self assert: game winner equals: 'Santiago'.
 	self assert: 1 equals: 1.
+	
+]
+
+{ #category : #tests }
+GameTest >> testSkipUsage [
+	| game gameBuilder player |
+	gameBuilder := JagerGameBuilder new. 
+	gameBuilder addBoardWithSpaces: 50 withLaps: 1 fixedWith:1. 
+	gameBuilder addPlayerNamed: 'Santiago'.gameBuilder addPlayerNamed: 'Santiago2'.
+	gameBuilder addPlayerNamed: 'Santiago3'.gameBuilder addPlayerNamed: 'Santiago4'.
+	gameBuilder addSequencedDiceWithSides: 4.
+	game := gameBuilder build.
+	player := game currentPlayer.
+	player addCard: Skip new.
+	player playCard: Skip new inGame: game forPlayers: player.
+	self assert: (game currentPlayer) name equals: 'Santiago2'
+	
+	
+	
 	
 ]
 

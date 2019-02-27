@@ -17,28 +17,19 @@ Public API and Key Messages
  
 Internal Representation and Key Implementation Points.
 
-    Instance Variables
-	type:		<Object>
-
 
     Implementation Points
 "
 Class {
-	#name : #MoonWalk,
-	#superclass : #Space,
-	#instVars : [
-		'spaces'
-	],
+	#name : #Double,
+	#superclass : #Object,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #playing }
-MoonWalk >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
-	aCollectionOfPlayers do: [:player | aPlayer = player ifTrue: [player recedePositionBy: spaces withSpaces: amountSpaces ]].
-]
-
-{ #category : #initialization }
-MoonWalk >> initialize [
-	spaces := ((Random new) nextInt: 5) .
-
+Double >> playedBy: aPlayer inGame: aJagerGame forPlayer: anotherPlayer [
+	aPlayer discard: self.
+	aJagerGame saveCard: self.
+	aJagerGame playDouble.
+	
 ]

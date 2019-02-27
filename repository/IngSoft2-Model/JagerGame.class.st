@@ -112,6 +112,11 @@ JagerGame >> initializePlayerPositions [
 	playerPositions := (players collect: [ :player | Player initializeAndPositionPlayer: player ]) asOrderedCollection
 ]
 
+{ #category : #playing }
+JagerGame >> invertOrder [
+	playingTurn inverseOrder.
+]
+
 { #category : #accessing }
 JagerGame >> lastCard [
 	^ lastCard
@@ -120,6 +125,25 @@ JagerGame >> lastCard [
 { #category : #accessing }
 JagerGame >> lastSpace [
 	^ lastSpace
+]
+
+{ #category : #playing }
+JagerGame >> playDouble [
+		| aPlayer |
+	status playTurn.
+	aPlayer := playerPositions detect:[:aRanking | aRanking player =  playingTurn current].
+	aPlayer advancePositionBy: self  rollDices withSpaces: (boardSpaces size) withCards: playedCards.
+	(aPlayer position = 0)
+	ifFalse: [self saveSpace: (boardSpaces at:(aPlayer position)).
+	self doSpaceEfectOn: (self rankingOf: (aPlayer player)) inSpace: (boardSpaces at:(aPlayer position))].
+	self rankPlayers: laps.
+	 
+]
+
+{ #category : #playing }
+JagerGame >> playSkip [
+	playingTurn next.
+	 
 ]
 
 { #category : #playing }
@@ -173,6 +197,11 @@ JagerGame >> saveCard: aCard [
 { #category : #accessing }
 JagerGame >> saveSpace: aSpace [ 
 	lastSpace := aSpace.
+]
+
+{ #category : #playing }
+JagerGame >> skipTurn [
+	playingTurn next.
 ]
 
 { #category : #accessing }

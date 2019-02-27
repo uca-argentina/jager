@@ -68,6 +68,8 @@ Space class >> createSpaceFixed: aNumber [
 	ifTrue:[^MoonWalkFixed new].
 	aNumber = 6
 	ifTrue:[^AtomicBomb new].
+	aNumber = 7
+	ifTrue:[^MoonWalk new].
 	
 	
 ]

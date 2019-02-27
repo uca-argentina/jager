@@ -49,7 +49,8 @@ Player >> addCard [
 		Acceleration new.
 		Cancellation new.
 		Redo new.
-		Repeat new
+		Repeat new.
+		Reverse new
 	} atRandom.
 
 ]
@@ -72,7 +73,7 @@ Player >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength withCards:
 		ifTrue: [ aNumberOfSpaces ]
 		ifFalse: [ aNumberOfSpaces + (self cardModifications: aCollectionOfCards) ].
 	spaces negative
-		ifTrue: [ self recedePositionBy: spaces negated ]
+		ifTrue: [ self recedePositionBy: spaces negated withSpaces: aBoardLength]
 		ifFalse: [ position + spaces > aBoardLength
 				ifTrue: [ position := position + spaces.
 					position := position - aBoardLength.
@@ -136,8 +137,8 @@ Player >> playCard: aCard inGame: aJagerGame forCard: aCanceledCard [
 ]
 
 { #category : #accessing }
-Player >> playCard: aCard inGame: aGame forPlayers: somePlayers [
-	aCard playedBy: self inGame: aGame forPlayer: somePlayers.
+Player >> playCard: aCard inGame: aGame forPlayers: aPlayer [
+	aCard playedBy: self inGame: aGame forPlayer: aPlayer.
 ]
 
 { #category : #accessing }
@@ -150,20 +151,19 @@ Player >> position [
 	^position.
 ]
 
-{ #category : #accessing }
-Player >> recedeLaps: aNumberOfSpaces [
-	| temporarySpaces |
+{ #category : #playing }
+Player >> recedeLaps: aNumberOfSpaces withSpaces: aBoardLength [ 
+		| temporarySpaces |
 	laps = 0
 		ifTrue: [ position := 0 ]
-		ifFalse: [ temporarySpaces := aNumberOfSpaces - position.
-			position := position - temporarySpaces.
+		ifFalse: [ position :=  aBoardLength + position - aNumberOfSpaces.
 			laps := laps - 1 ]
 ]
 
-{ #category : #accessing }
-Player >> recedePositionBy: aNumberOfSpaces [
+{ #category : #playing }
+Player >> recedePositionBy: aNumberOfSpaces withSpaces: aBoardLength [ 
 	(position - aNumberOfSpaces) negative
 		ifTrue:
-			[ self recedeLaps: aNumberOfSpaces.]
+			[ self recedeLaps: aNumberOfSpaces withSpaces: aBoardLength.]
 		ifFalse: [ position := position - aNumberOfSpaces ]
 ]

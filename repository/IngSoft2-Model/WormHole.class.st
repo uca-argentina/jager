@@ -31,5 +31,5 @@ Class {
 
 { #category : #playing }
 WormHole >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
-	aPlayer recedePositionBy: 4
+	aPlayer recedePositionBy: 4 withSpaces: amountSpaces
 ]

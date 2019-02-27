@@ -50,6 +50,17 @@ CircularIterator >> initializeWithCollection: aCollection [
 ]
 
 { #category : #modifying }
+CircularIterator >> inverseOrder [
+	| invertPlayers |
+	invertPlayers := OrderedCollection new.
+	invertPlayers addAll: players. 
+	players removeAll.
+	index := maxIndex - index + 1.
+	invertPlayers reverseDo: [ :player | players add: player  ] 
+	
+]
+
+{ #category : #modifying }
 CircularIterator >> next [
 	index := index + 1 <= maxIndex
 		ifTrue: [ index + 1 ]

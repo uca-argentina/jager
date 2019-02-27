@@ -34,7 +34,7 @@ Class {
 
 { #category : #playing }
 MoonWalkFixed >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
-	aCollectionOfPlayers do: [:player | aPlayer = player ifFalse: [player recedePositionBy: spaces ]].
+	aCollectionOfPlayers do: [:player | aPlayer = player ifFalse: [player recedePositionBy: spaces withSpaces: amountSpaces ]].
 ]
 
 { #category : #initialization }
