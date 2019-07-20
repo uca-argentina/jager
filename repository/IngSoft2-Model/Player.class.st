@@ -31,7 +31,8 @@ Class {
 		'player',
 		'position',
 		'laps',
-		'cards'
+		'cards',
+		'prision'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -70,9 +71,9 @@ Player >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength withCards:
 		| spaces |
 	spaces := cards isEmptyOrNil
 		ifTrue: [ aNumberOfSpaces ]
-		ifFalse: [ aNumberOfSpaces + (self cardModifications: aCollectionOfCards) ].
+		ifFalse: [ aNumberOfSpaces + (self cardModifications: aCollectionOfCards) ]."sumo o resto los efectos que tengo"
 	spaces negative
-		ifTrue: [ self recedePositionBy: spaces negated ]
+		ifTrue: [ self recedePositionBy: spaces negated ]"si tengo que retroceder"
 		ifFalse: [ position + spaces > aBoardLength
 				ifTrue: [ position := position + spaces.
 					position := position - aBoardLength.
@@ -88,6 +89,11 @@ Player >> amountOfCards [
 { #category : #playing }
 Player >> cardModifications: aCollectionOfCards [
 	^	(aCollectionOfCards sumNumbers: [:card | card cardModifierForPlayer: self]) .
+]
+
+{ #category : #accessing }
+Player >> changePrisionStatus: aStatus [
+	prision := aStatus
 ]
 
 { #category : #playing }
@@ -116,6 +122,7 @@ Player >> initializeAtStart: aPlayer [
 	position := 0.
 	laps := 0.
 	cards := OrderedCollection new.
+	prision := False.
 	self addCard.
 	self addCard.
 ]
@@ -148,6 +155,11 @@ Player >> player [
 { #category : #accessing }
 Player >> position [
 	^position.
+]
+
+{ #category : #initialization }
+Player >> prision [
+	^prision.
 ]
 
 { #category : #accessing }

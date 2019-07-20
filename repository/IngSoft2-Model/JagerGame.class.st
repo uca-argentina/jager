@@ -123,11 +123,25 @@ JagerGame >> lastSpace [
 ]
 
 { #category : #playing }
+JagerGame >> maxRollDices [
+	^dices sumNumbers: [:dice | dice amountSides ].
+]
+
+{ #category : #playing }
 JagerGame >> playTurn [
 	| aPlayer |
 	status playTurn.
 	aPlayer := playerPositions detect:[:aRanking | aRanking player =  playingTurn current].
-	aPlayer advancePositionBy: self  rollDices withSpaces: (boardSpaces size) withCards: playedCards.
+	(aPlayer prision = True)
+	ifTrue: [
+					| rolled |
+					rolled := self rollDices.
+						(rolled = self maxRollDices)
+					   ifTrue: [
+						aPlayer changePrisionStatus: False.
+						aPlayer advancePositionBy: rolled withSpaces: (boardSpaces size) withCards: playedCards.].
+				]
+	ifFalse: [aPlayer advancePositionBy: self  rollDices withSpaces: (boardSpaces size) withCards: playedCards.].
 	(aPlayer position = 0)
 	ifFalse: [self saveSpace: (boardSpaces at:(aPlayer position)).
 	self doSpaceEfectOn: (self rankingOf: (aPlayer player)) inSpace: (boardSpaces at:(aPlayer position))].

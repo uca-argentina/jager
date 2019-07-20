@@ -76,6 +76,19 @@ self assert: value equals: 1.
 ]
 
 { #category : #tests }
+DiceTest >> testDiceMaxValue [
+	"comment stating purpose of message"
+
+	| dice value |
+	
+dice:= Dice withNumOfSides: 6.
+self assert: dice amountSides equals: 6.
+value:= dice amountSides .
+self assert: value equals: 6.
+
+]
+
+{ #category : #tests }
 DiceTest >> testRandomDiceFunctions [
 
 	| dice roll |

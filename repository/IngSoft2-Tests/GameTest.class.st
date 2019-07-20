@@ -112,6 +112,16 @@ GameTest >> testCantPlayFinishedGame [
 ]
 
 { #category : #tests }
+GameTest >> testCarcel [
+	| game gameBuilder |
+	gameBuilder := self buildTemplateWith: 7.
+	gameBuilder addSequencedDiceWithSides: 4.
+	game := gameBuilder build.
+	1 to: 12 do: [:i | game playTurn. ].
+	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
+]
+
+{ #category : #tests }
 GameTest >> testCardGiver [
 	| game gameBuilder |
 	gameBuilder := self buildTemplateWith: 2.
