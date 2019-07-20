@@ -50,6 +50,7 @@ Player >> addCard [
 		Acceleration new.
 		Cancellation new.
 		Redo new.
+		GetOutOfJail new.
 		Repeat new
 	} atRandom.
 
@@ -81,7 +82,7 @@ Player >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength withCards:
 				ifFalse: [ position := position + spaces ] ]
 ]
 
-{ #category : #playing }
+{ #category : #accessing }
 Player >> amountOfCards [
 	 ^ cards size.
 ]
@@ -116,6 +117,15 @@ Player >> getBombed [
 	position := 0.
 ]
 
+{ #category : #accessing }
+Player >> hasCard: aCard [ 
+		| card |
+	card := cards detect:[:anOwnedCard | (anOwnedCard name) = (aCard name)]ifNone:[].
+   (card name = aCard name)
+	ifTrue: [ ^True. ] ifFalse: [ ^False. ]
+
+]
+
 { #category : #initialization }
 Player >> initializeAtStart: aPlayer [ 
 	player := aPlayer.
@@ -135,6 +145,12 @@ Player >> laps [
 { #category : #accessing }
 Player >> name [
 	^ player.
+]
+
+{ #category : #accessing }
+Player >> playCard: aCard inGame: aJagerGame [
+	aCard playedBy: self inGame: aJagerGame.
+
 ]
 
 { #category : #accessing }

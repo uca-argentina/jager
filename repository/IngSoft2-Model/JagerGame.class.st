@@ -137,10 +137,16 @@ JagerGame >> playTurn [
 					| rolled |
 					rolled := self rollDices.
 						(rolled = self maxRollDices)
-					   ifTrue: [
-						aPlayer changePrisionStatus: False.
-						aPlayer advancePositionBy: rolled withSpaces: (boardSpaces size) withCards: playedCards.].
+					   	ifTrue: [
+							aPlayer changePrisionStatus: False.
+							aPlayer advancePositionBy: rolled withSpaces: (boardSpaces size) withCards: playedCards.]
+					   ifFalse:[
+						((aPlayer hasCard: GetOutOfJail new) = True)
+								ifTrue: [aPlayer playCard: (GetOutOfJail new) inGame: self.
+									aPlayer advancePositionBy: rolled withSpaces: (boardSpaces size) withCards: playedCards.]
+						].
 				]
+						
 	ifFalse: [aPlayer advancePositionBy: self  rollDices withSpaces: (boardSpaces size) withCards: playedCards.].
 	(aPlayer position = 0)
 	ifFalse: [self saveSpace: (boardSpaces at:(aPlayer position)).
