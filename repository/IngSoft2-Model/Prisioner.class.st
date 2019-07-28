@@ -21,12 +21,25 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #Carcel,
-	#superclass : #Space,
+	#name : #Prisioner,
+	#superclass : #PlayerStatus,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #playing }
-Carcel >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
-	aPlayer changePrisionStatus: True
+{ #category : #accessing }
+Prisioner >> canMove: aPlayer inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices. [
+
+			(rolled = maxValueOfDices)
+			ifTrue: ["me fijo si saque el maximo para salir 'gratis'"
+					      aPlayer getOutOfPrision.
+					       ^true.].
+				
+			(aPlayer hasCard: GetOutOfJail new)		
+			ifTrue:["Sino me fijo si tengo la carta, que me obliga a jugarla"
+					aPlayer playCard: (GetOutOfJail new) inGame: aGame.
+					^true].
+				
+"Si no cumpli ninguna de las 2 posibilidades para salir, no puedo mover"
+ ^false.
+				
 ]

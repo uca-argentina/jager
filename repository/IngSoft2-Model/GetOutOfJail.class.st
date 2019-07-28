@@ -28,6 +28,6 @@ Class {
 
 { #category : #playing }
 GetOutOfJail >> playedBy: aPlayer inGame: aJagerGame [
-	aPlayer changePrisionStatus: False.
+	aPlayer changePrisionStatus: false.
    aPlayer discard: self.
 ]
