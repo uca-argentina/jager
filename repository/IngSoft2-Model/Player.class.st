@@ -184,6 +184,11 @@ Player >> position [
 ]
 
 { #category : #accessing }
+Player >> prisionStatus [
+	^ prisionStatus status.
+]
+
+{ #category : #accessing }
 Player >> recedeLaps: aNumberOfSpaces [
 	| temporarySpaces |
 	laps = 0

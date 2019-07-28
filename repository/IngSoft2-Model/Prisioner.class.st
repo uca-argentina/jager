@@ -43,3 +43,8 @@ Prisioner >> canMove: aPlayer inGame: aGame withThrow: rolled maxRollDices: maxV
  ^false.
 				
 ]
+
+{ #category : #accessing }
+Prisioner >> status [
+^ 'prisioner'
+]
