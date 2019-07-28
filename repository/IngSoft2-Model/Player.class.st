@@ -122,7 +122,7 @@ Player >> hasCard: aCard [
 		| card |
 	card := cards detect:[:anOwnedCard | (anOwnedCard name) = (aCard name)]ifNone:[].
    (card name = aCard name)
-	ifTrue: [ ^True. ] ifFalse: [ ^False. ]
+	ifTrue: [ ^true. ] ifFalse: [ ^false. ]
 
 ]
 
@@ -132,7 +132,7 @@ Player >> initializeAtStart: aPlayer [
 	position := 0.
 	laps := 0.
 	cards := OrderedCollection new.
-	prision := False.
+	prision := false.
 	self addCard.
 	self addCard.
 ]

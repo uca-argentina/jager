@@ -131,6 +131,22 @@ GameTest >> testCarcel [
 ]
 
 { #category : #tests }
+GameTest >> testCarcelGetOutMaxDice [
+	| game gameBuilder player|
+	gameBuilder := self buildTemplateWith: 7.
+	gameBuilder addSequencedDiceWithSides: 4.
+	game := gameBuilder build.
+	player := game currentPlayer.
+	(player hasCard: GetOutOfJail new)
+	ifTrue:[ player discard: GetOutOfJail new.].
+	(player hasCard: GetOutOfJail new)
+	ifTrue:[ player discard: GetOutOfJail new.].
+	"Descarto las 2 cartas iniciales para que solo pueda salir con los dados"
+	1 to: 12 do: [:i | game playTurn. ].
+	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
+]
+
+{ #category : #tests }
 GameTest >> testCardGiver [
 	| game gameBuilder |
 	gameBuilder := self buildTemplateWith: 2.
@@ -141,6 +157,25 @@ GameTest >> testCardGiver [
 		should: [ game playTurn ]
 		raise: AssertionFailure
 		description: 'Game is Finished'
+]
+
+{ #category : #tests }
+GameTest >> testGetOutOfJailCard [
+	| game gameBuilder player |
+	gameBuilder := self buildTemplateWith: 7.
+	"gameBuilder addSequencedDiceWithSides: 4."
+	game := gameBuilder build.
+	game playTurn.
+	player := game currentPlayer.
+	player addCard: GetOutOfJail new.
+	game playTurn.
+	player addCard: GetOutOfJail new.
+	game playTurn.
+	player addCard: GetOutOfJail new.
+	game playTurn.
+	player addCard: GetOutOfJail new.
+	game playTurn.
+	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
 ]
 
 { #category : #tests }
