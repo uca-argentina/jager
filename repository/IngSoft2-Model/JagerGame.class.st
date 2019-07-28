@@ -129,19 +129,12 @@ JagerGame >> maxRollDices [
 
 { #category : #playing }
 JagerGame >> playTurn [
-	| aPlayer |
+	| aPlayer rolled |
+	rolled := self rollDices.
 	status playTurn.
 	aPlayer := playerPositions detect:[:aRanking | aRanking player =  playingTurn current].
-	(aPlayer prision = True)
-	ifTrue: [
-					| rolled |
-					rolled := self rollDices.
-						(rolled = self maxRollDices)
-					   ifTrue: [
-						aPlayer changePrisionStatus: False.
-						aPlayer advancePositionBy: rolled withSpaces: (boardSpaces size) withCards: playedCards.].
-				]
-	ifFalse: [aPlayer advancePositionBy: self  rollDices withSpaces: (boardSpaces size) withCards: playedCards.].
+	(aPlayer canMove: rolled maxRollDices: (self maxRollDices) inGame: self)
+	 ifTrue: [aPlayer advancePositionBy: rolled withSpaces: (boardSpaces size) withCards: playedCards.].
 	(aPlayer position = 0)
 	ifFalse: [self saveSpace: (boardSpaces at:(aPlayer position)).
 	self doSpaceEfectOn: (self rankingOf: (aPlayer player)) inSpace: (boardSpaces at:(aPlayer position))].

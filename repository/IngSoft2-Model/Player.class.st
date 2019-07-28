@@ -97,6 +97,11 @@ Player >> cardModifications: aCollectionOfCards [
 	^	(aCollectionOfCards sumNumbers: [:card | card cardModifierForPlayer: self]) .
 ]
 
+{ #category : #accessing }
+Player >> changePrisionStatus: aStatus [
+	prision := aStatus
+]
+
 { #category : #playing }
 Player >> discard: aCard [ 
 	| card |
@@ -132,7 +137,7 @@ Player >> hasCard: aCard [
 		| card |
 	card := cards detect:[:anOwnedCard | (anOwnedCard name) = (aCard name)]ifNone:[].
    (card name = aCard name)
-	ifTrue: [ ^true. ] ifFalse: [ ^false. ]
+	ifTrue: [ ^True. ] ifFalse: [ ^False. ]
 
 ]
 
@@ -142,7 +147,7 @@ Player >> initializeAtStart: aPlayer [
 	position := 0.
 	laps := 0.
 	cards := OrderedCollection new.
-	prisionStatus := Free new.
+	prision := False.
 	self addCard.
 	self addCard.
 ]

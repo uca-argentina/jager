@@ -27,6 +27,16 @@ Class {
 }
 
 { #category : #testing }
+PlayerStatus >> canMove: aPlayer inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices [
+ self subclassResponsibility.
+]
+
+{ #category : #testing }
 PlayerStatus >> canMove: rolled maxRollDices: maxValueOfDices [
  self subclassResponsibility.
+]
+
+{ #category : #accessing }
+PlayerStatus >> status [
+	^ self subclassResponsibility
 ]

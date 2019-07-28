@@ -31,7 +31,7 @@ Free >> canMove: aPlayer inGame: aGame withThrow: rolled maxRollDices: maxValueO
 ^true.
 ]
 
-{ #category : #accesing }
+{ #category : #accessing }
 Free >> status [
 ^'free'.
 ]

@@ -112,25 +112,6 @@ GameTest >> testCantPlayFinishedGame [
 ]
 
 { #category : #tests }
-GameTest >> testCarcel [
-	| game gameBuilder player |
-	gameBuilder := self buildTemplateWith: 7.
-	"gameBuilder addSequencedDiceWithSides: 4."
-	game := gameBuilder build.
-	game playTurn.
-	player := game currentPlayer.
-	player addCard: GetOutOfJail new.
-	game playTurn.
-	player addCard: GetOutOfJail new.
-	game playTurn.
-	player addCard: GetOutOfJail new.
-	game playTurn.
-	player addCard: GetOutOfJail new.
-	game playTurn.
-	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
-]
-
-{ #category : #tests }
 GameTest >> testCarcelGetOutMaxDice [
 	| game gameBuilder player|
 	gameBuilder := self buildTemplateWith: 7.
@@ -212,7 +193,6 @@ GameTest >> testGetTop3 [
 GameTest >> testLaps [
 	| game gameBuilder |
 	gameBuilder := JagerGameBuilder new. 
-
 	gameBuilder addBoardWithSpaces: 10 withLaps: 2 fixedWith:1. 
 	gameBuilder addPlayerNamed: 'Santiago'.
 	gameBuilder addSequencedDiceWithSides: 6.
