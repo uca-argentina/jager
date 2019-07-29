@@ -22,11 +22,11 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #Free,
-	#superclass : #PlayerStatus,
+	#superclass : #PrisionStatus,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #accesing }
+{ #category : #accessing }
 Free >> canMove: aPlayer inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices. [
 ^true.
 ]

@@ -88,8 +88,8 @@ Player >> amountOfCards [
 ]
 
 { #category : #accessing }
-Player >> canMove: rolled maxRollDices: maxValueOfDices inGame: aGame [
-	^ prisionStatus canMove: self inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices.
+Player >> canMoveWithDiceRoll: rolled withMaxRollDices: maxValueOfDices inGame: aGame [
+	^ (prisionStatus canMove: self inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices).
 ]
 
 { #category : #playing }
@@ -124,7 +124,7 @@ Player >> getBombed [
 
 { #category : #accessing }
 Player >> getOutOfPrision [
-	prisionStatus:= Free new
+	prisionStatus:= Free new.
 ]
 
 { #category : #accessing }
@@ -137,7 +137,7 @@ Player >> hasCard: aCard [
 		| card |
 	card := cards detect:[:anOwnedCard | (anOwnedCard name) = (aCard name)]ifNone:[].
    (card name = aCard name)
-	ifTrue: [ ^True. ] ifFalse: [ ^False. ]
+	ifTrue: [ ^true. ] ifFalse: [ ^false. ]
 
 ]
 
@@ -147,7 +147,7 @@ Player >> initializeAtStart: aPlayer [
 	position := 0.
 	laps := 0.
 	cards := OrderedCollection new.
-	prision := False.
+	prisionStatus := Free new.
 	self addCard.
 	self addCard.
 ]

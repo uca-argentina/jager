@@ -134,10 +134,7 @@ GameTest >> testCarcelSpace [
 	gameBuilder := self buildTemplateWith: 7.
 	game := gameBuilder build.
 	player := game currentPlayer.
-	(player hasCard: GetOutOfJail new)
-	ifTrue:[ player discard: GetOutOfJail new.].
-	(player hasCard: GetOutOfJail new)
-	ifTrue:[ player discard: GetOutOfJail new.].
+	player discardAllCards.
 	self assert: player prisionStatus equals: 'free'.
 	game playTurn.
 	self assert: player prisionStatus equals: 'prisioner'.

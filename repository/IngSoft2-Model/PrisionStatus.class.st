@@ -21,22 +21,17 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #PlayerStatus,
+	#name : #PrisionStatus,
 	#superclass : #Object,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #testing }
-PlayerStatus >> canMove: aPlayer inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices [
- self subclassResponsibility.
-]
-
-{ #category : #testing }
-PlayerStatus >> canMove: rolled maxRollDices: maxValueOfDices [
+{ #category : #accessing }
+PrisionStatus >> canMove: aPlayer inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices [
  self subclassResponsibility.
 ]
 
 { #category : #accessing }
-PlayerStatus >> status [
+PrisionStatus >> status [
 	^ self subclassResponsibility
 ]
