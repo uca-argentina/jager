@@ -89,7 +89,7 @@ Player >> amountOfCards [
 
 { #category : #accessing }
 Player >> canMoveWithDiceRoll: rolled withMaxRollDices: maxValueOfDices inGame: aGame [
-	^ (prisionStatus canMove: self inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices).
+	^ prisionStatus canMove: self inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices.
 ]
 
 { #category : #playing }
