@@ -50,7 +50,7 @@ Space class >> createSpace [
 	ifTrue:[^SpeedUp new].
 	rand < 98
 	ifTrue:[^MoonWalk new].
-	rand < 100
+	rand < 101
 	ifTrue:[^AtomicBomb new].
 	
 	
