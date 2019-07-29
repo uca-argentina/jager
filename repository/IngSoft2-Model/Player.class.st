@@ -123,6 +123,11 @@ Player >> getOutOfPrision [
 ]
 
 { #category : #accessing }
+Player >> getPrisionStatus [
+	^ prisionStatus.
+]
+
+{ #category : #accessing }
 Player >> goToPrision [
 	prisionStatus:= Prisioner new.
 ]
@@ -142,7 +147,7 @@ Player >> initializeAtStart: aPlayer [
 	position := 0.
 	laps := 0.
 	cards := OrderedCollection new.
-	prision := false.
+	prisionStatus := Free new.
 	self addCard.
 	self addCard.
 ]
