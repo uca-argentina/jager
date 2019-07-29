@@ -32,7 +32,7 @@ Class {
 		'position',
 		'laps',
 		'cards',
-		'prision'
+		'prisionStatus'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -89,17 +89,12 @@ Player >> amountOfCards [
 
 { #category : #accessing }
 Player >> canMoveWithDiceRoll: rolled withMaxRollDices: maxValueOfDices inGame: aGame [
-	^ prisionStatus canMove: self inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices.
+	^ (prisionStatus canMove: self inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices).
 ]
 
 { #category : #playing }
 Player >> cardModifications: aCollectionOfCards [
 	^	(aCollectionOfCards sumNumbers: [:card | card cardModifierForPlayer: self]) .
-]
-
-{ #category : #accessing }
-Player >> changePrisionStatus: aStatus [
-	prision := aStatus
 ]
 
 { #category : #playing }
@@ -129,7 +124,7 @@ Player >> getOutOfPrision [
 
 { #category : #accessing }
 Player >> goToPrision [
-	prisionStatus:= Prisioner new
+	prisionStatus:= Prisioner new.
 ]
 
 { #category : #accessing }
@@ -137,7 +132,7 @@ Player >> hasCard: aCard [
 		| card |
 	card := cards detect:[:anOwnedCard | (anOwnedCard name) = (aCard name)]ifNone:[].
    (card name = aCard name)
-	ifTrue: [ ^true. ] ifFalse: [ ^false. ]
+	ifTrue: [ ^True. ] ifFalse: [ ^False. ]
 
 ]
 
@@ -147,7 +142,7 @@ Player >> initializeAtStart: aPlayer [
 	position := 0.
 	laps := 0.
 	cards := OrderedCollection new.
-	prisionStatus := Free new.
+	prision := false.
 	self addCard.
 	self addCard.
 ]

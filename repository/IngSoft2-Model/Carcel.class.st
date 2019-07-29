@@ -28,5 +28,5 @@ Class {
 
 { #category : #playing }
 Carcel >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
-	aPlayer goToPrision.
+	aPlayer changePrisionStatus: True
 ]

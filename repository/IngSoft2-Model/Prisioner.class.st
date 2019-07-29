@@ -27,7 +27,7 @@ Class {
 }
 
 { #category : #accessing }
-Prisioner >> canMove: aPlayer inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices. [
+Prisioner >> canMove: aPlayer inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices [
 
 			(rolled = maxValueOfDices)
 			ifTrue: ["me fijo si saque el maximo para salir 'gratis'"

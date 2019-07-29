@@ -26,7 +26,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #accessing }
+{ #category : #accesing }
 Free >> canMove: aPlayer inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices. [
 ^true.
 ]
