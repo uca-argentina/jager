@@ -132,7 +132,7 @@ Player >> hasCard: aCard [
 		| card |
 	card := cards detect:[:anOwnedCard | (anOwnedCard name) = (aCard name)]ifNone:[].
    (card name = aCard name)
-	ifTrue: [ ^True. ] ifFalse: [ ^False. ]
+	ifTrue: [ ^true. ] ifFalse: [ ^false. ]
 
 ]
 
