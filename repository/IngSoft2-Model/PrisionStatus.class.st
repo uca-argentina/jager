@@ -32,6 +32,6 @@ PrisionStatus >> canMove: aPlayer inGame: aGame withThrow: rolled maxRollDices: 
 ]
 
 { #category : #accessing }
-PrisionStatus >> status [
+PrisionStatus >> getStatus [
 	^ self subclassResponsibility
 ]

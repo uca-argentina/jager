@@ -11,6 +11,6 @@ player  := Player initializeAndPositionPlayer: 'Santiago'.
 self assert: player name equals: 'Santiago'.
 self assert: player position equals: 0.
 self assert: player laps equals: 0.
-self assert: player prisionStatus equals: 'free'.
+self assert: (player getPrisionStatus) class equals: Free.
 
 ]

@@ -66,7 +66,7 @@ Player >> addLastCard: aCard [
 	cards add: aCard.
 ]
 
-{ #category : #accessing }
+{ #category : #playing }
 Player >> advancePositionBy: aNumberOfSpaces withSpaces: aBoardLength withCards: aCollectionOfCards [ 
 "aPlayer advancePositionBy: self  rollDices withSpaces: (boardSpaces size) withCards: cards."
 		| spaces |
@@ -87,7 +87,7 @@ Player >> amountOfCards [
 	 ^ cards size.
 ]
 
-{ #category : #accessing }
+{ #category : #playing }
 Player >> canMoveWithDiceRoll: rolled withMaxRollDices: maxValueOfDices inGame: aGame [
 	^ (prisionStatus canMove: self inGame: aGame withThrow: rolled maxRollDices: maxValueOfDices).
 ]
@@ -112,12 +112,12 @@ Player >> discardAllCards [
 	 cards := OrderedCollection new.
 ]
 
-{ #category : #accessing }
+{ #category : #playing }
 Player >> getBombed [
 	position := 0.
 ]
 
-{ #category : #accessing }
+{ #category : #playing }
 Player >> getOutOfPrision [
 	prisionStatus:= Free new.
 ]
@@ -127,7 +127,7 @@ Player >> getPrisionStatus [
 	^ prisionStatus.
 ]
 
-{ #category : #accessing }
+{ #category : #playing }
 Player >> goToPrision [
 	prisionStatus:= Prisioner new.
 ]
@@ -162,18 +162,18 @@ Player >> name [
 	^ player.
 ]
 
-{ #category : #accessing }
+{ #category : #playing }
 Player >> playCard: aCard inGame: aJagerGame [
 	aCard playedBy: self inGame: aJagerGame.
 
 ]
 
-{ #category : #accessing }
+{ #category : #playing }
 Player >> playCard: aCard inGame: aJagerGame forCard: aCanceledCard [
 	aCard playedBy: self inGame: aJagerGame forCard: aCanceledCard.
 ]
 
-{ #category : #accessing }
+{ #category : #playing }
 Player >> playCard: aCard inGame: aGame forPlayers: somePlayers [
 	aCard playedBy: self inGame: aGame forPlayer: somePlayers.
 ]
@@ -188,12 +188,7 @@ Player >> position [
 	^position.
 ]
 
-{ #category : #accessing }
-Player >> prisionStatus [
-	^ prisionStatus status.
-]
-
-{ #category : #accessing }
+{ #category : #playing }
 Player >> recedeLaps: aNumberOfSpaces [
 	| temporarySpaces |
 	laps = 0
@@ -203,7 +198,7 @@ Player >> recedeLaps: aNumberOfSpaces [
 			laps := laps - 1 ]
 ]
 
-{ #category : #accessing }
+{ #category : #playing }
 Player >> recedePositionBy: aNumberOfSpaces [
 	(position - aNumberOfSpaces) negative
 		ifTrue:

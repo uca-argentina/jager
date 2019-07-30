@@ -115,29 +115,31 @@ GameTest >> testCantPlayFinishedGame [
 GameTest >> testCarcelGetOutMaxDice [
 	| game gameBuilder player|
 	gameBuilder := self buildTemplateWith: 7.
-	gameBuilder addSequencedDiceWithSides: 4.
 	game := gameBuilder build.
 	player := game currentPlayer.
-	(player hasCard: GetOutOfJail new)
-	ifTrue:[ player discard: GetOutOfJail new.].
-	(player hasCard: GetOutOfJail new)
-	ifTrue:[ player discard: GetOutOfJail new.].
+	player discardAllCards.
+	self assert: player position equals: 0.
 	"Descarto las 2 cartas iniciales para que solo pueda salir con los dados"
+	self assert: (player getPrisionStatus) class equals: Free.
 	game playTurn.
-	1 to: 11 do: [:i | game playTurn. ].
-	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
+	self assert: player position equals: 1.
+	self assert: (player getPrisionStatus) class equals: Prisioner.
+	1 to: 5 do: [:i | game playTurn. ].
+	self assert: player position equals: 7.
+
 ]
 
 { #category : #tests }
 GameTest >> testCarcelSpace [
 	| game gameBuilder player|
+	"creo un juego con todos los casilleros en carcel, me aseguro que el jugador no tenga cartas, y me fijo que despues de caer en carcel este preso"
 	gameBuilder := self buildTemplateWith: 7.
 	game := gameBuilder build.
 	player := game currentPlayer.
 	player discardAllCards.
-	self assert: player prisionStatus equals: 'free'.
+	self assert: (player getPrisionStatus) class equals: Free.
 	game playTurn.
-	self assert: player prisionStatus equals: 'prisioner'.
+	self assert: (player getPrisionStatus) class equals: Prisioner.
 ]
 
 { #category : #tests }
@@ -161,15 +163,17 @@ GameTest >> testGetOutOfJailCard [
 	game := gameBuilder build.
 	game playTurn.
 	player := game currentPlayer.
+	player discardAllCards.
 	player addCard: GetOutOfJail new.
 	game playTurn.
+	self assert: (player getPrisionStatus) class equals: Prisioner.
 	player addCard: GetOutOfJail new.
+	player playCard: GetOutOfJail new inGame: game.
+	self assert: (player getPrisionStatus) class equals: Free.
 	game playTurn.
-	player addCard: GetOutOfJail new.
-	game playTurn.
-	player addCard: GetOutOfJail new.
-	game playTurn.
-	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
+	self assert: (player getPrisionStatus) class equals: Prisioner.
+
+
 ]
 
 { #category : #tests }
@@ -184,6 +188,32 @@ GameTest >> testGetTop3 [
 	1 to: 52 do: [:i | game playTurn. ].
 	self should:[ game playTurn ]raise: AssertionFailure description: 'Game is Finished'.
 	self assert: game topThree equals: 'First is: Santiago4. Second is: Santiago3. Third is: Santiago2'.
+]
+
+{ #category : #tests }
+GameTest >> testJailMultipleDicesAndGetOutOfJailCards [
+	| game gameBuilder player|
+	"Tambien me fijo el orden, primero trato de salir con dados, despues carta"
+	gameBuilder := JagerGameBuilder new. 
+	gameBuilder addBoardWithSpaces: 100 withLaps: 1 fixedWith:7. 
+	gameBuilder addPlayerNamed: 'Ignacio'.
+	gameBuilder addSequencedDiceWithSides: 4.
+	gameBuilder addSequencedDiceWithSides: 3.
+	game := gameBuilder build.
+	player := game currentPlayer.
+	player discardAllCards.
+	self assert: player position equals: 0.
+	game playTurn.
+	self assert: player position equals: 2.
+	self assert: (player getPrisionStatus) class equals: Prisioner.
+	1 to: 11 do: [:i |game playTurn].
+	self assert: player position equals: 9.
+	1 to: 11 do: [:i |game playTurn].
+	player addCard: GetOutOfJail new.
+	game playTurn.
+	self assert: player position equals: 16.
+	game playTurn.
+	self assert: player position equals: 18.
 ]
 
 { #category : #tests }

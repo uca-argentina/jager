@@ -45,6 +45,6 @@ Prisioner >> canMove: aPlayer inGame: aGame withThrow: rolled maxRollDices: maxV
 ]
 
 { #category : #accessing }
-Prisioner >> status [
+Prisioner >> getStatus [
 ^ 'prisioner'
 ]

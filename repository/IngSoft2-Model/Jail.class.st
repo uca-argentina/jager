@@ -21,12 +21,12 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #Carcel,
+	#name : #Jail,
 	#superclass : #Space,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #playing }
-Carcel >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
+Jail >> doSpaceActionOn: aCollectionOfPlayers withCurrentPlayer: aPlayer withSpaces: amountSpaces andLaps: laps [
 	aPlayer goToPrision.
 ]

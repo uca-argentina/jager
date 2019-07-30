@@ -39,7 +39,7 @@ Space class >> createSpace [
 	rand := rand nextInt: 100.
 	"rand := rand asInteger."
 	rand < 1
-	ifTrue:[^Carcel new].
+	ifTrue:[^Jail new].
 	rand < 38
 	ifTrue:[^Normal new].
 	rand < 48
@@ -71,7 +71,7 @@ Space class >> createSpaceFixed: aNumber [
 	aNumber = 6
 	ifTrue:[^AtomicBomb new].
 	aNumber = 7
-	ifTrue:[^Carcel new].
+	ifTrue:[^Jail new].
 	
 	
 ]
